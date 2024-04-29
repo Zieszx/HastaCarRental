@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Customer management page for HAMS to view and manage all customer data">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Management</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4">Customer Management</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-5">
+                                <a th:href="@{/home/registercustomer}">
+                                    <button type="button" class="btn btn-rounded btn-info">
+                                    <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                    Register new Customer
+                                </button>
+                                </a>
+                            </div>
+                            <div>
+                                <table id="customertb" class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Customer Name</th>
+                                            <th>Customer Phone</th>
+                                            <th>Customer Email</th>
+                                            <th>Customer DLicense</th>
+                                            <th>Customer Role</th>
+                                            <th>Customer Address</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Your Thymeleaf iteration here -->
+                                        <tr th:each="cust, iterStat : ${customers}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${cust.Cust_Name}"></td>
+                                            <td th:text="${cust.Cust_Phone}"></td>
+                                            <td th:text="${cust.Cust_Email}"></td>
+                                            <td th:text="${cust.Cust_DLicense}"></td>
+                                            <td th:text="${cust.Cust_Role}"></td>
+                                            <td th:text="${cust.Cust_Address}"></td>
+                                            <td>
+                                                <a th:href="@{/management/updateCustomer(Cust_ID=${cust.Cust_ID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${cust.Cust_ID}" data-args="/management/deleteCustomer?Cust_ID=">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Customer Name</th>
+                                            <th>Customer Phone</th>
+                                            <th>Customer Email</th>
+                                            <th>Customer DLicense</th>
+                                            <th>Customer Role</th>
+                                            <th>Customer Address</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script th:src="@{/js/sweetalert-delete.js}"></script>
+    <script>
+        var annexTable = $('#customertb').DataTable({
+            deferRender: true,
+            scrollCollapse: true,
+            fixedColumns: true,
+            paging: false,
+
+            dom: 'Bfrtip',
+            responsive: true,
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            buttons: [
+                'excel',
+                'pdf'
+            ]
+        });
+
+        annexTable.on('click', 'tbody tr', function() {
+            var $row = annexTable.row(this).nodes().to$();
+            var hasClass = $row.hasClass('selected');
+            if (hasClass) {
+                $row.removeClass('selected')
+            } else {
+                $row.addClass('selected')
+            }
+        })
+
+        annexTable.rows().every(function() {
+            this.nodes().to$().removeClass('selected')
+        });
+    </script>
+</body>
+
+</html>

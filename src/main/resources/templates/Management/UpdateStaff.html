@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="To update details the HASTA Car Rental's customer to the HAMS System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Customer Details</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Update Customer Details</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form th:object="${staff}" th:action="@{/management/addStaff}" id="registerform" class="needs-validation" novalidate>
+                                    <input type="hidden" class="form-control" th:field="*{Staff_ID}">
+                                    <div class="mb-3">
+                                        <label for="staffName" class="form-label">Staff Name</label>
+                                        <input type="text" class="form-control" id="staffName" th:field="*{Staff_Name}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid name.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="staffUsername" class="form-label">Staff Username</label>
+                                        <input type="text" class="form-control" id="staffUsername" th:field="*{Staff_Username}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid username.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="staffPassword" class="form-label">Staff Password</label>
+                                        <input type="password" class="form-control" name="staffPassword" id="staffPassword" th:field="*{Staff_Password}" placeholder="********" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid password.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="staffEmail" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="staffEmail" th:field="*{Staff_Email}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid email address.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="staffPhone" class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" id="staffPhone" th:field="*{Staff_Phone}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid phone number.
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-customs confirm-btn" data-args="/management/addStaff">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+
+    <!-- Sweet alert script -->
+    <script>
+        $(document).ready(function() {
+            // Select the form element
+            var form = $('form.needs-validation');
+
+            // Submit event listener
+            form.on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'), // Get the action URL from the form
+                    data: form.serialize(), // Serialize form data
+                    success: function(response) {
+                        // Show SweetAlert success message
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Staff details updated and saved successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function() {
+                            // Redirect to the desired page
+                            window.location.href = '/management/staffs';
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Show SweetAlert error message
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while updating customer details.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
