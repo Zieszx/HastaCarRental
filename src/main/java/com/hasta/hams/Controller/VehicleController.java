@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -38,6 +36,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class VehicleController {
 
     private VehicleServices vehicleServices;
+
+    public byte[] setimageinDB(MultipartFile tempfile) {
+        byte[] imageBytes = null;
+        if (tempfile != null && !tempfile.isEmpty()) {
+            try {
+                imageBytes = tempfile.getBytes();
+            } catch (IOException e) {
+                // Handle the exception
+                e.printStackTrace(); // Log or handle the exception appropriately
+            }
+        }
+        return imageBytes;
+    }
+
+    @GetMapping("/vehicle/displayVehicleImage")
+    public ResponseEntity<ByteArrayResource> displayVehicleImage(@RequestParam("Vehicle_ID") int id)
+            throws IOException {
+        Vehicle vehicle = vehicleServices.getVehicle(id);
+        byte[] image = vehicle.getVehicle_Image();
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new ByteArrayResource(image));
+    }
 
     @GetMapping("/management/vehicles")
     public String vehicles(Model model, HttpSession session) {
@@ -59,10 +78,12 @@ public class VehicleController {
     }
 
     @PostMapping("/management/addVehicle")
-    public String addVehicle(@ModelAttribute Vehicle vehicle, Model model, HttpSession session) {
+    public String addVehicle(@ModelAttribute Vehicle vehicle, @RequestParam("imageFile") MultipartFile imageFile,
+            Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
+        vehicle.setVehicle_Image(setimageinDB(imageFile));
         vehicleServices.addVehicle(vehicle);
 
         return "redirect:/management/addVehicle";

@@ -1,5 +1,7 @@
 package com.hasta.hams.Model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,5 +46,12 @@ public class Vehicle {
 
     @Column(name = "Reserved_perHours")
     private double Reserved_perHours;
+
+    @Lob
+    @Column(name = "Vehicle_Image")
+    private byte[] Vehicle_Image;
+
+    @Transient
+    private MultipartFile Vehicle_ImageFile;
 
 }

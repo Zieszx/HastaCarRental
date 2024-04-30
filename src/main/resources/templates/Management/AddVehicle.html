@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="To register a vehicle to the HAMS System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register Vehicle</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Register a Vehicle</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form th:object="${vehicle}" th:action="@{/management/addVehicle}" method="post" id="registerform" class="needs-validation" novalidate>
+                                    <div class="mb-3">
+                                        <label for="vehicleModel" class="form-label">Vehicle Model</label>
+                                        <input type="text" class="form-control" id="vehicleModel" th:field="*{Vehicle_Model}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid model.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleBrand" class="form-label">Vehicle Brand</label>
+                                        <input type="text" class="form-control" id="vehicleBrand" th:field="*{Vehicle_Brand}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid brand.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleType" class="form-label">Vehicle Type</label>
+                                        <select class="form-select" id="vehicleStatus" th:field="*{Vehicle_Type}" required>
+                                            <option value="">Please select a Type</option>
+                                            <option value="Sedan">Sedan</option>
+                                            <option value="MPV">MPV</option>
+                                            <option value="Compact">Compact</option>
+                                            <option value="SUV">SUV</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid type.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleYear" class="form-label">Vehicle Year</label>
+                                        <input type="text" class="form-control" id="vehicleYear" th:field="*{Vehicle_Year}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid year.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleLicensePlate" class="form-label">License Plate</label>
+                                        <input type="text" class="form-control" id="vehicleLicensePlate" th:field="*{Vehicle_LicensePlate}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid license plate.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleStatus" class="form-label">Vehicle Status</label>
+                                        <select class="form-select" id="vehicleStatus" th:field="*{Vehicle_Status}" required>
+                                            <option value="">Please select a status</option>
+                                            <option value="Available">Available</option>
+                                            <option value="Maintenance">Maintenance</option>
+                                            <option value="Unavailable">Unavailable</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a status.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleFuelbar" class="form-label">Fuel Bar</label>
+                                        <input type="text" class="form-control" id="vehicleFuelbar" th:field="*{Vehicle_Fuelbar}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid fuel bar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleMileage" class="form-label">Mileage</label>
+                                        <input type="text" class="form-control" id="vehicleMileage" th:field="*{Vehicle_Mileage}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid mileage.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reservedPerHours" class="form-label">Reserved per Hours</label>
+                                        <input type="text" class="form-control" id="reservedPerHours" th:field="*{Reserved_perHours}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid reservation value.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleImage" class="form-label">Upload Vehicle Image</label>
+                                        <input type="file" class="form-control form-control-file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required>
+                                        <div class="invalid-feedback">
+                                            Please select a valid image file (JPEG or PNG).
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-customs confirm-btn" data-args="/management/addVehicle">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script th:src="@{/js/Form-validation-customs.js}"></script>
+</body>
+
+</html>
