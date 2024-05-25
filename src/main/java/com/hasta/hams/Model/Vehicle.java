@@ -48,7 +48,7 @@ public class Vehicle {
     private double Reserved_perHours;
 
     @Lob
-    @Column(name = "Vehicle_Image")
+    @Column(name = "Vehicle_Image", columnDefinition = "MEDIUMBLOB")
     private byte[] Vehicle_Image;
 
     @Transient

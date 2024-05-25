@@ -28,7 +28,7 @@
                         <h5 class="card-title fw-semibold mb-4">Register a Vehicle</h5>
                         <div class="card">
                             <div class="card-body">
-                                <form th:object="${vehicle}" th:action="@{/management/addVehicle}" method="post" id="registerform" class="needs-validation" novalidate>
+                                <form th:object="${vehicle}" th:action="@{/management/addVehicle}" method="post" id="registerform" class="needs-validation" enctype="multipart/form-data" novalidate>
                                     <div class="mb-3">
                                         <label for="vehicleModel" class="form-label">Vehicle Model</label>
                                         <input type="text" class="form-control" id="vehicleModel" th:field="*{Vehicle_Model}" required>

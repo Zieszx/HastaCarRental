@@ -68,8 +68,8 @@
                                             </td>
                                             <td th:text="${vehicle.Vehicle_Status}"></td>
                                             <td>
-                                                <a th:href="@{/management/updateStaff(Staff_ID=${staff.Staff_ID})}" class="btn btn-warning">Edit</a>
-                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${staff.Staff_ID}" data-args="/management/deleteStaff?Staff_ID=">Delete</a>
+                                                <a th:href="@{/management/updateVehicle(Vehicle_ID=${vehicle.Vehicle_ID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${vehicle.Vehicle_ID}" data-args="/management/deleteVehicle?Vehicle_ID=">Delete</a>
                                             </td>
                                         </tr>
                                     </tbody>

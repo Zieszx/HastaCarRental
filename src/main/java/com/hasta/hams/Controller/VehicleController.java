@@ -96,7 +96,7 @@ public class VehicleController {
 
         Vehicle vehicle = vehicleServices.getVehicle(id);
         model.addAttribute("vehicle", vehicle);
-        return "Management/EditVehicle";
+        return "Management/UpdateVehicle";
     }
 
     @PostMapping("/management/editVehicle")
