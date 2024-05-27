@@ -100,10 +100,17 @@ public class VehicleController {
     }
 
     @PostMapping("/management/editVehicle")
-    public String editVehicle(@ModelAttribute Vehicle vehicle, Model model, HttpSession session) {
+    public String editVehicle(@ModelAttribute Vehicle vehicle, @RequestParam("imageFile") MultipartFile imageFile,
+            Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
+        if (imageFile != null && !imageFile.isEmpty() && StringUtils.hasText(imageFile.getOriginalFilename())) {
+            vehicle.setVehicle_Image(setimageinDB(imageFile));
+        } else {
+            Vehicle temp = vehicleServices.getVehicle(vehicle.getVehicle_ID());
+            vehicle.setVehicle_Image(temp.getVehicle_Image());
+        }
         vehicleServices.updateVehicle(vehicle);
 
         return "redirect:/management/vehicles";

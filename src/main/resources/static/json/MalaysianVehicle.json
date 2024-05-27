@@ -1,4 +1,3 @@
-// Copyright by HASTA Car Rental Services
 [{
         "brand": "Proton",
         "models": [
@@ -26,7 +25,8 @@
             "Kancil",
             "Kelisa",
             "Viva",
-            "Rusa"
+            "Rusa",
+            "Nexis"
         ]
     },
     {

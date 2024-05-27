@@ -31,22 +31,50 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card" th:each="vehicle : ${vehicles}">
-                                        <img th:src="@{/vehicle/displayVehicleImage(Vehicle_ID=${vehicle.Vehicle_ID})}" th:alt="${vehicle.Vehicle_Model}" class="card-img-top img-fluid" alt="...">
+                                <div class="col-md-12">
+                                    <div>
+                                        <div class="card-header">
+                                            <h5 class="card-title fw-semibold mb-4">View all Hasta Cars</h5>
+                                            <!-- Search and Filter -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-select" id="statusFilter">
+                                                        <option value="">Filter by Status</option>
+                                                        <option value="Available">Available</option>
+                                                        <option value="Maintenance">Maintenance</option>
+                                                        <option value="Unavailable">Unavailable</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-select" id="typeFilter">
+                                                        <option value="">Filter by Type</option>
+                                                        <option value="Sedan">Sedan</option>
+                                                        <option value="MPV">MPV</option>
+                                                        <option value="Compact">Compact</option>
+                                                        <option value="SUV">SUV</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-select" id="sortDirection">
+                                                        <option value="">Filter by Price</option>
+                                                        <option value="asc">Price: Low to High</option>
+                                                        <option value="desc">Price: High to Low</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">
-                                                <span th:text="${vehicle.Vehicle_Brand}"></span>
-                                                <span th:text="${vehicle.Vehicle_Model}"></span>
-                                            </h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Book</a>
+                                            <div class="row" id="carList">
+                                                <!-- Vehicles will be loaded here by jQuery -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -56,6 +84,7 @@
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
     <script th:src="@{/js/dashboard.js}"></script>
+    <script th:src="@{/js/viewVehicle.js}"></script>
 </body>
 
 </html>

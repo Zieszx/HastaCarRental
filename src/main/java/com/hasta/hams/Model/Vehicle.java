@@ -30,7 +30,7 @@ public class Vehicle {
     @Column(name = "Vehicle_Brand")
     private String Vehicle_Brand;
 
-    // Sedan, MPV, Compact
+    // Sedan, MPV, Compact, SUV
     @Column(name = "Vehicle_Type")
     private String Vehicle_Type;
 

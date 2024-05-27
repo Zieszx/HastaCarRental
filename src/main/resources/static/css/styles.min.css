@@ -18906,3 +18906,9 @@ button.btn-customs:hover {
     cursor: pointer;
     margin-top: 10px;
 }
+
+.img-viewCar {
+    height: 245px;
+    width: 100%;
+    object-fit: cover;
+}
