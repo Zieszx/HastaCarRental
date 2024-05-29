@@ -57,19 +57,19 @@
                                         <!-- Your Thymeleaf iteration here -->
                                         <tr th:each="vehicle, iterStat : ${vehicles}">
                                             <td th:text="${iterStat.count}"></td>
-                                            <td th:text="${vehicle.Vehicle_Model}"></td>
-                                            <td th:text="${vehicle.Vehicle_Brand}"></td>
-                                            <td th:text="${vehicle.Vehicle_Type}"></td>
-                                            <td th:text="${vehicle.Vehicle_LicensePlate}"></td>
-                                            <td th:text="${vehicle.Vehicle_Fuelbar}"></td>
-                                            <td th:text="${vehicle.Vehicle_Mileage}"></td>
+                                            <td th:text="${vehicle.vehicleModel}"></td>
+                                            <td th:text="${vehicle.vehicleBrand}"></td>
+                                            <td th:text="${vehicle.vehicleType}"></td>
+                                            <td th:text="${vehicle.vehicleLicensePlate}"></td>
+                                            <td th:text="${vehicle.vehicleFuelbar}"></td>
+                                            <td th:text="${vehicle.vehicleMileage}"></td>
                                             <td>
-                                                <img th:src="@{/vehicle/displayVehicleImage(Vehicle_ID=${vehicle.Vehicle_ID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.Vehicle_Model}" />
+                                                <img th:src="@{/vehicle/displayVehicleImage(vehicleID=${vehicle.vehicleID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.vehicleModel}" />
                                             </td>
-                                            <td th:text="${vehicle.Vehicle_Status}"></td>
+                                            <td th:text="${vehicle.vehicleStatus}"></td>
                                             <td>
-                                                <a th:href="@{/management/updateVehicle(Vehicle_ID=${vehicle.Vehicle_ID})}" class="btn btn-warning">Edit</a>
-                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${vehicle.Vehicle_ID}" data-args="/management/deleteVehicle?Vehicle_ID=">Delete</a>
+                                                <a th:href="@{/management/updateVehicle(vehicleID=${vehicle.vehicleID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${vehicle.vehicleID}" data-args="/management/deleteVehicle?vehicleID=">Delete</a>
                                             </td>
                                         </tr>
                                     </tbody>

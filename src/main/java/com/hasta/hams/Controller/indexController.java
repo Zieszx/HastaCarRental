@@ -54,8 +54,8 @@ public class indexController {
         boolean isUserlogged = false;
 
         for (Adminstrative adminstrative : adminstratives) {
-            if (adminstrative.getAdmin_Username().equals(username)
-                    && adminstrative.getAdmin_Password().equals(password)) {
+            if (adminstrative.getAdminUsername().equals(username)
+                    && adminstrative.getAdminPassword().equals(password)) {
                 session.setAttribute("user", adminstrative);
                 isUserlogged = true;
                 break;
@@ -65,7 +65,7 @@ public class indexController {
         }
 
         for (Staff staff : staffs) {
-            if (staff.getStaff_Username().equals(username) && staff.getStaff_Password().equals(password)) {
+            if (staff.getStaffUsername().equals(username) && staff.getStaffPassword().equals(password)) {
                 session.setAttribute("user", staff);
                 isUserlogged = true;
                 break;

@@ -15,45 +15,45 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Reservation_ID")
-    private int Reservation_ID;
+    @Column(name = "reservationID")
+    private int reservationID;
 
     @OneToOne
-    @JoinColumn(name = "Customer_ID")
-    private Customer Customer_ID;
+    @JoinColumn(name = "customerID")
+    private Customer customerID;
 
     @OneToOne
-    @JoinColumn(name = "Vehicle_ID")
-    private Vehicle Vehicle_ID;
+    @JoinColumn(name = "vehicleID")
+    private Vehicle vehicleID;
 
     @OneToOne
-    @JoinColumn(name = "Payment_ID")
-    private Payment Payment_ID;
+    @JoinColumn(name = "paymentID")
+    private Payment paymentID;
 
-    @Column(name = "Reservation_PickupLocation")
-    private String Reservation_PickupLocation;
+    @Column(name = "reservationPickupLocation")
+    private String reservationPickupLocation;
 
-    @Column(name = "Reservation_ReturnLocation")
-    private String Reservation_ReturnLocation;
+    @Column(name = "reservationReturnLocation")
+    private String reservationReturnLocation;
 
-    @Column(name = "Reservation_StartDate")
-    private Date Reservation_StartDate;
+    @Column(name = "reservationStartDate")
+    private Date reservationStartDate;
 
-    @Column(name = "Reservation_EndDate")
-    private Date Reservation_EndDate;
+    @Column(name = "reservationEndDate")
+    private Date reservationEndDate;
 
     // Time in 24 hour format
-    @Column(name = "Reservation_Time")
-    private String Reservation_Time;
+    @Column(name = "reservationTime")
+    private String reservationTime;
 
-    @Column(name = "Reservation_Hours")
-    private int Reservation_Hours;
+    @Column(name = "reservationHours")
+    private int reservationHours;
 
     // Booked, Confirm, Return, Refund, Cancel
-    @Column(name = "Reservation_Status")
-    private String Reservation_Status;
+    @Column(name = "reservationStatus")
+    private String reservationStatus;
 
-    @Column(name = "Reservation_ReasonDeleted", columnDefinition = "LONGTEXT", nullable = true)
-    private String Reservation_ReasonDeleted;
+    @Column(name = "reservationReasonDeleted", columnDefinition = "LONGTEXT", nullable = true)
+    private String reservationReasonDeleted;
 
 }

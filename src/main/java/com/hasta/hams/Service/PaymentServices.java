@@ -15,6 +15,10 @@ public class PaymentServices {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    public void savePayment(Payment payment) {
+        paymentRepository.save(payment);
+    }
+
     public List<Payment> getAllPayment() {
         List<Payment> payments = new ArrayList<>();
         paymentRepository.findAll().forEach(payments::add);

@@ -12,25 +12,25 @@ import lombok.*;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Cust_ID")
-    private int Cust_ID;
+    @Column(name = "custID")
+    private int custID;
 
-    @Column(name = "Cust_Name")
-    private String Cust_Name;
+    @Column(name = "custName")
+    private String custName;
 
-    @Column(name = "Cust_Phone")
-    private String Cust_Phone;
+    @Column(name = "custPhone")
+    private String custPhone;
 
-    @Column(name = "Cust_Email")
-    private String Cust_Email;
+    @Column(name = "custEmail")
+    private String custEmail;
 
-    @Column(name = "Cust_DLicense")
-    private String Cust_DLicense;
+    @Column(name = "custDLicense")
+    private String custDLicense;
 
     // Outsider, Student
-    @Column(name = "Cust_Role")
-    private String Cust_Role;
+    @Column(name = "custRole")
+    private String custRole;
 
-    @Column(name = "Cust_Address")
-    private String Cust_Address;
+    @Column(name = "custAddress")
+    private String custAddress;
 }

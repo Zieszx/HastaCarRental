@@ -69,7 +69,7 @@ public class StaffContoller {
     }
 
     @GetMapping("/management/updateStaff")
-    public String updateStaff(@RequestParam("Staff_ID") int id, Model model, HttpSession session) {
+    public String updateStaff(@RequestParam("staffID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
@@ -84,18 +84,18 @@ public class StaffContoller {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
-        Staff temp = staffServices.getStaff(staff.getStaff_ID());
+        Staff temp = staffServices.getStaff(staff.getStaffID());
         if (password.equals(""))
-            staff.setStaff_Password(temp.getStaff_Password());
-        else if (!temp.getStaff_Password().equals(password))
-            staff.setStaff_Password(password);
+            staff.setStaffPassword(temp.getStaffPassword());
+        else if (!temp.getStaffPassword().equals(password))
+            staff.setStaffPassword(password);
         staffServices.updateStaff(staff);
 
         return "redirect:/management/staffs";
     }
 
     @GetMapping("/management/deleteStaff")
-    public String deleteStaff(@RequestParam("Staff_ID") int id, HttpSession session) {
+    public String deleteStaff(@RequestParam("staffID") int id, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 

@@ -13,22 +13,22 @@ public class Staff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Staff_ID")
-    private int Staff_ID;
+    @Column(name = "staffID")
+    private int staffID;
 
-    @Column(name = "Staff_Name")
-    private String Staff_Name;
+    @Column(name = "staffName")
+    private String staffName;
 
-    @Column(name = "Staff_Username")
-    private String Staff_Username;
+    @Column(name = "staffUsername")
+    private String staffUsername;
 
-    @Column(name = "Staff_Password")
-    private String Staff_Password;
+    @Column(name = "staffPassword")
+    private String staffPassword;
 
-    @Column(name = "Staff_Email")
-    private String Staff_Email;
+    @Column(name = "staffEmail")
+    private String staffEmail;
 
-    @Column(name = "Staff_Phone")
-    private String Staff_Phone;
+    @Column(name = "staffPhone")
+    private String staffPhone;
 
 }

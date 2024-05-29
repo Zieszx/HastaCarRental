@@ -53,13 +53,13 @@
                                         <!-- Your Thymeleaf iteration here -->
                                         <tr th:each="staff, iterStat : ${staffs}">
                                             <td th:text="${iterStat.count}"></td>
-                                            <td th:text="${staff.Staff_Name}"></td>
-                                            <td th:text="${staff.Staff_Phone}"></td>
-                                            <td th:text="${staff.Staff_Email}"></td>
-                                            <td th:text="${staff.Staff_Username}"></td>
+                                            <td th:text="${staff.staffName}"></td>
+                                            <td th:text="${staff.staffPhone}"></td>
+                                            <td th:text="${staff.staffEmail}"></td>
+                                            <td th:text="${staff.staffUsername}"></td>
                                             <td>
-                                                <a th:href="@{/management/updateStaff(Staff_ID=${staff.Staff_ID})}" class="btn btn-warning">Edit</a>
-                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${staff.Staff_ID}" data-args="/management/deleteStaff?Staff_ID=">Delete</a>
+                                                <a th:href="@{/management/updateStaff(staffID=${staff.staffID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${staff.staffID}" data-args="/management/deleteStaff?staffID=">Delete</a>
                                             </td>
                                         </tr>
                                     </tbody>

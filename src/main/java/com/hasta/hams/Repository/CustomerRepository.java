@@ -6,4 +6,6 @@ import com.hasta.hams.Model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
+    boolean existsByCustEmail(String Cust_Email);
+
 }

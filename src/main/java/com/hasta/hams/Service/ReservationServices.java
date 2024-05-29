@@ -15,7 +15,7 @@ public class ReservationServices {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public List<Reservation> getAllReservation() {
+    public List<Reservation> getAllReservations() {
         List<Reservation> reservations = new ArrayList<>();
         reservationRepository.findAll().forEach(reservations::add);
         return reservations;

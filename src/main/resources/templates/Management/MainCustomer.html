@@ -55,15 +55,15 @@
                                         <!-- Your Thymeleaf iteration here -->
                                         <tr th:each="cust, iterStat : ${customers}">
                                             <td th:text="${iterStat.count}"></td>
-                                            <td th:text="${cust.Cust_Name}"></td>
-                                            <td th:text="${cust.Cust_Phone}"></td>
-                                            <td th:text="${cust.Cust_Email}"></td>
-                                            <td th:text="${cust.Cust_DLicense}"></td>
-                                            <td th:text="${cust.Cust_Role}"></td>
-                                            <td th:text="${cust.Cust_Address}"></td>
+                                            <td th:text="${cust.custName}"></td>
+                                            <td th:text="${cust.custPhone}"></td>
+                                            <td th:text="${cust.custEmail}"></td>
+                                            <td th:text="${cust.custDLicense}"></td>
+                                            <td th:text="${cust.custRole}"></td>
+                                            <td th:text="${cust.custAddress}"></td>
                                             <td>
-                                                <a th:href="@{/management/updateCustomer(Cust_ID=${cust.Cust_ID})}" class="btn btn-warning">Edit</a>
-                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${cust.Cust_ID}" data-args="/management/deleteCustomer?Cust_ID=">Delete</a>
+                                                <a th:href="@{/management/updateCustomer(custID=${cust.custID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${cust.custID}" data-args="/management/deleteCustomer?custID=">Delete</a>
                                             </td>
                                         </tr>
                                     </tbody>

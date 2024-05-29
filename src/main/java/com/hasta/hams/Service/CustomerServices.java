@@ -37,4 +37,8 @@ public class CustomerServices {
         customerRepository.deleteById(id);
     }
 
+    public boolean emailExists(String custEmail) {
+        return customerRepository.existsByCustEmail(custEmail);
+    }
+
 }

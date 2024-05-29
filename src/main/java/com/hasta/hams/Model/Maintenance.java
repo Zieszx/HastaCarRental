@@ -15,26 +15,26 @@ public class Maintenance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Maintenance_ID")
-    private int Maintenance_ID;
+    @Column(name = "maintenanceID")
+    private int maintenanceID;
 
     @OneToOne
-    @JoinColumn(name = "Vehicle_ID")
-    private Vehicle Vehicle_ID;
+    @JoinColumn(name = "vehicleID")
+    private Vehicle vehicleID;
 
-    @Column(name = "Maintenance_Desc", columnDefinition = "LONGTEXT")
-    private String Maintenance_Desc;
+    @Column(name = "maintenanceDesc", columnDefinition = "LONGTEXT")
+    private String maintenanceDesc;
 
-    @Column(name = "Maintenance_RejectReason", columnDefinition = "LONGTEXT", nullable = true)
-    private String Maintenance_RejectReason;
+    @Column(name = "maintenanceRejectReason", columnDefinition = "LONGTEXT", nullable = true)
+    private String maintenanceRejectReason;
 
-    @Column(name = "Maintenance_MileeageDuring")
-    private int Maintenance_MileeageDuring;
+    @Column(name = "maintenanceMileeageDuring")
+    private int maintenanceMileeageDuring;
 
-    @Column(name = "Maintenance_Date")
-    private Date Maintenance_Date;
+    @Column(name = "maintenanceDate")
+    private Date maintenanceDate;
 
     // Submitted, In Progress, Complete, Rejected, Cancel
-    @Column(name = "Maintenance_Status")
-    private String Maintenance_Status;
+    @Column(name = "maintenanceStatus")
+    private String maintenanceStatus;
 }

@@ -31,35 +31,35 @@
                                 <form th:object="${customer}" id="registerform" class="needs-validation" novalidate>
                                     <div class="mb-3">
                                         <label for="custName" class="form-label">Customer Name</label>
-                                        <input type="text" class="form-control" id="custName" th:field="*{Cust_Name}" required>
+                                        <input type="text" class="form-control" id="custName" th:field="*{custName}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid name.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="custPhone" class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" id="custPhone" th:field="*{Cust_Phone}" required>
+                                        <input type="text" class="form-control" id="custPhone" th:field="*{custPhone}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid phone number.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="custEmail" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="custEmail" th:field="*{Cust_Email}" required>
+                                        <input type="email" class="form-control" id="custEmail" th:field="*{custEmail}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid email address.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="custDLicense" class="form-label">Driving License</label>
-                                        <input type="text" class="form-control" id="custDLicense" th:field="*{Cust_DLicense}" required>
+                                        <input type="text" class="form-control" id="custDLicense" th:field="*{custDLicense}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid driving license.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="custRole" class="form-label">Role</label>
-                                        <select class="form-select" id="custRole" th:field="*{Cust_Role}" required>
+                                        <select class="form-select" id="custRole" th:field="*{custRole}" required>
                                             <option value="">Please select a role</option>
                                             <option value="Outsider">Outsider</option>
                                             <option value="Student">Student</option>
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="custAddress" class="form-label">Address</label>
-                                        <textarea class="form-control" id="custAddress" rows="3" th:field="*{Cust_Address}" required></textarea>
+                                        <textarea class="form-control" id="custAddress" rows="3" th:field="*{custAddress}" required></textarea>
                                         <div class="invalid-feedback">
                                             Please provide a valid address.
                                         </div>
@@ -90,6 +90,59 @@
     <script th:src="@{/js/dashboard.js}"></script>
     <script th:src="@{/js/Form-validation-customs.js}"></script>
     <script th:src="@{/js/sweetalert-confirmation.js}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#custEmail').on('blur', function() {
+                var email = $(this).val();
+                if (email) {
+                    $.ajax({
+                        url: '/api/checkEmail',
+                        type: 'GET',
+                        data: {
+                            email: email
+                        },
+                        success: function(response) {
+                            if (response) {
+                                $('#custEmail').addClass('is-invalid');
+                                $('#custEmail').next('.invalid-feedback').text('This email is already registered.');
+                            } else {
+                                $('#custEmail').removeClass('is-invalid');
+                                $('#custEmail').next('.invalid-feedback').text('Please provide a valid email address.');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#registerform').on('submit', function(event) {
+                var email = $('#custEmail').val();
+                var formValid = true;
+
+                if (email) {
+                    $.ajax({
+                        url: '/api/checkEmail',
+                        type: 'GET',
+                        data: {
+                            email: email
+                        },
+                        async: false, // Synchronous call to ensure validation check completes
+                        success: function(response) {
+                            if (response) {
+                                $('#custEmail').addClass('is-invalid');
+                                $('#custEmail').next('.invalid-feedback').text('This email is already registered.');
+                                formValid = false;
+                            }
+                        }
+                    });
+                }
+
+                if (!formValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

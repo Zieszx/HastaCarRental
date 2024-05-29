@@ -15,43 +15,43 @@ public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Vehicle_ID")
-    private int Vehicle_ID;
+    @Column(name = "vehicleID")
+    private int vehicleID;
 
-    @Column(name = "Vehicle_Fuelbar")
-    private int Vehicle_Fuelbar;
+    @Column(name = "vehicleFuelbar")
+    private int vehicleFuelbar;
 
-    @Column(name = "Vehicle_Mileage")
-    private int Vehicle_Mileage;
+    @Column(name = "vehicleMileage")
+    private int vehicleMileage;
 
-    @Column(name = "Vehicle_Model")
-    private String Vehicle_Model;
+    @Column(name = "vehicleModel")
+    private String vehicleModel;
 
-    @Column(name = "Vehicle_Brand")
-    private String Vehicle_Brand;
+    @Column(name = "vehicleBrand")
+    private String vehicleBrand;
 
     // Sedan, MPV, Compact, SUV
-    @Column(name = "Vehicle_Type")
-    private String Vehicle_Type;
+    @Column(name = "vehicleType")
+    private String vehicleType;
 
-    @Column(name = "Vehicle_Year")
-    private int Vehicle_Year;
+    @Column(name = "vehicleYear")
+    private int vehicleYear;
 
-    @Column(name = "Vehicle_LicensePlate")
-    private String Vehicle_LicensePlate;
+    @Column(name = "vehicleLicensePlate")
+    private String vehicleLicensePlate;
 
     // Available, Maintenance, Unavailable
-    @Column(name = "Vehicle_Status")
-    private String Vehicle_Status;
+    @Column(name = "vehicleStatus")
+    private String vehicleStatus;
 
-    @Column(name = "Reserved_perHours")
-    private double Reserved_perHours;
+    @Column(name = "vehicleReservedperHours")
+    private double vehicleReservedperHours;
 
     @Lob
-    @Column(name = "Vehicle_Image", columnDefinition = "MEDIUMBLOB")
-    private byte[] Vehicle_Image;
+    @Column(name = "vehicleImage", columnDefinition = "MEDIUMBLOB")
+    private byte[] vehicleImage;
 
     @Transient
-    private MultipartFile Vehicle_ImageFile;
+    private MultipartFile vehicleImageFile;
 
 }

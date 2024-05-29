@@ -51,10 +51,10 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicle/displayVehicleImage")
-    public ResponseEntity<ByteArrayResource> displayVehicleImage(@RequestParam("Vehicle_ID") int id)
+    public ResponseEntity<ByteArrayResource> displayVehicleImage(@RequestParam("vehicleID") int id)
             throws IOException {
         Vehicle vehicle = vehicleServices.getVehicle(id);
-        byte[] image = vehicle.getVehicle_Image();
+        byte[] image = vehicle.getVehicleImage();
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new ByteArrayResource(image));
     }
 
@@ -83,14 +83,14 @@ public class VehicleController {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
-        vehicle.setVehicle_Image(setimageinDB(imageFile));
+        vehicle.setVehicleImage(setimageinDB(imageFile));
         vehicleServices.addVehicle(vehicle);
 
         return "redirect:/management/addVehicle";
     }
 
     @GetMapping("/management/updateVehicle")
-    public String editVehicle(@RequestParam("Vehicle_ID") int id, Model model, HttpSession session) {
+    public String editVehicle(@RequestParam("vehicleID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
@@ -106,10 +106,10 @@ public class VehicleController {
             return "redirect:/";
 
         if (imageFile != null && !imageFile.isEmpty() && StringUtils.hasText(imageFile.getOriginalFilename())) {
-            vehicle.setVehicle_Image(setimageinDB(imageFile));
+            vehicle.setVehicleImage(setimageinDB(imageFile));
         } else {
-            Vehicle temp = vehicleServices.getVehicle(vehicle.getVehicle_ID());
-            vehicle.setVehicle_Image(temp.getVehicle_Image());
+            Vehicle temp = vehicleServices.getVehicle(vehicle.getVehicleID());
+            vehicle.setVehicleImage(temp.getVehicleImage());
         }
         vehicleServices.updateVehicle(vehicle);
 
@@ -117,7 +117,7 @@ public class VehicleController {
     }
 
     @GetMapping("/management/deleteVehicle")
-    public String deleteVehicle(@RequestParam("Vehicle_ID") int id, Model model, HttpSession session) {
+    public String deleteVehicle(@RequestParam("vehicleID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 

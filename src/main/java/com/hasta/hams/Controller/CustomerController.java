@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -38,6 +36,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CustomerController {
 
     private CustomerServices customerServices;
+
+    // api for getting all customers from the database
+    @GetMapping("/api/checkEmail")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = customerServices.emailExists(email);
+        return new ResponseEntity<>(exists, HttpStatus.OK);
+    }
 
     @GetMapping("/home/registercustomer")
     public String registerCustomer(Model model, HttpSession session) {
@@ -70,7 +75,7 @@ public class CustomerController {
     }
 
     @GetMapping("/management/deleteCustomer")
-    public String deleteCustomer(@RequestParam("Cust_ID") int id, HttpSession session) {
+    public String deleteCustomer(@RequestParam("custID") int id, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
@@ -80,7 +85,7 @@ public class CustomerController {
     }
 
     @GetMapping("/management/updateCustomer")
-    public String updateCustomer(@RequestParam("Cust_ID") int id, Model model, HttpSession session) {
+    public String updateCustomer(@RequestParam("custID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 

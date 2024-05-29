@@ -13,19 +13,19 @@ public class Adminstrative {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Admin_ID")
-    private int Admin_ID;
+    @Column(name = "adminID")
+    private int adminID;
 
-    @Column(name = "Admin_Name")
-    private String Admin_Name;
+    @Column(name = "adminName")
+    private String adminName;
 
-    @Column(name = "Admin_Username")
-    private String Admin_Username;
+    @Column(name = "adminUsername")
+    private String adminUsername;
 
-    @Column(name = "Admin_Password")
-    private String Admin_Password;
+    @Column(name = "adminPassword")
+    private String adminPassword;
 
-    @Column(name = "Admin_Email")
-    private String Admin_Email;
+    @Column(name = "adminEmail")
+    private String adminEmail;
 
 }

@@ -12,38 +12,38 @@ import lombok.*;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Payment_ID")
-    private int Payment_Id;
+    @Column(name = "paymentID")
+    private int paymentId;
 
-    @Column(name = "Payment_Amount")
-    private double Payment_Amount;
+    @Column(name = "paymentAmount")
+    private double paymentAmount;
 
-    @Column(name = "Payment_Deposit")
-    private double Payment_Deposit;
+    @Column(name = "paymentDeposit")
+    private double paymentDeposit;
 
-    @Column(name = "Payment_Addtional")
-    private double Payment_Addtional;
+    @Column(name = "paymentAddtional")
+    private double paymentAddtional;
 
-    @Column(name = "Payment_Descriptions", columnDefinition = "LONGTEXT")
-    private String Payment_Descriptions;
+    @Column(name = "paymentDescriptions", columnDefinition = "LONGTEXT")
+    private String paymentDescriptions;
 
-    @Column(name = "Payment_Date")
-    private String payment_Date;
+    @Column(name = "paymentDate")
+    private String paymentDate;
 
-    @Column(name = "Payment_Method", nullable = true)
-    private String payment_Method;
+    @Column(name = "paymentMethod", nullable = true)
+    private String paymentMethod;
 
     // Created, Deposited, Full Payment, Successful, Cancel
-    @Column(name = "Payment_Status")
-    private String payment_Status;
+    @Column(name = "paymentStatus")
+    private String paymentStatus;
 
     @Lob
-    @Column(name = "Deposit_image", columnDefinition = "MEDIUMBLOB", nullable = true)
-    private byte[] Deposit_image;
+    @Column(name = "paymentDepositimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    private byte[] paymentDepositimage;
 
     @Lob
-    @Column(name = "FullPayment_image", columnDefinition = "MEDIUMBLOB", nullable = true)
-    private byte[] FullPayment_image;
+    @Column(name = "paymentFullimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    private byte[] paymentFullimage;
 
     @Lob
     @Column(name = "Additional_image", columnDefinition = "MEDIUMBLOB", nullable = true)

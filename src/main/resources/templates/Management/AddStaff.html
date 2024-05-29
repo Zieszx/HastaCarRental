@@ -31,35 +31,35 @@
                                 <form th:object="${staff}" th:action="@{/management/addStaff}" id="registerform" class="needs-validation" novalidate>
                                     <div class="mb-3">
                                         <label for="staffName" class="form-label">Staff Name</label>
-                                        <input type="text" class="form-control" id="staffName" th:field="*{Staff_Name}" required>
+                                        <input type="text" class="form-control" id="staffName" th:field="*{staffName}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid name.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="staffUsername" class="form-label">Staff Username</label>
-                                        <input type="text" class="form-control" id="staffUsername" th:field="*{Staff_Username}" required>
+                                        <input type="text" class="form-control" id="staffUsername" th:field="*{staffUsername}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid username.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="staffPassword" class="form-label">Staff Password</label>
-                                        <input type="password" class="form-control" id="staffPassword" th:field="*{Staff_Password}" required>
+                                        <input type="password" class="form-control" id="staffPassword" th:field="*{staffPassword}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid password.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="staffEmail" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="staffEmail" th:field="*{Staff_Email}" required>
+                                        <input type="email" class="form-control" id="staffEmail" th:field="*{staffEmail}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid email address.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="staffPhone" class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" id="staffPhone" th:field="*{Staff_Phone}" required>
+                                        <input type="text" class="form-control" id="staffPhone" th:field="*{staffPhone}" required>
                                         <div class="invalid-feedback">
                                             Please provide a valid phone number.
                                         </div>
