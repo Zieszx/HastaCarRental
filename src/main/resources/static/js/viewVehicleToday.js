@@ -1,7 +1,7 @@
 $(document).ready(function() {
     loadCars();
 
-    $('#searchInput, #statusFilter, #typeFilter, #sortDirection, #startDate, #endDate').on('change keyup', function() {
+    $('#searchInput, #typeFilter, #sortDirection').on('change keyup', function() {
         loadCars();
     });
 
@@ -10,11 +10,9 @@ $(document).ready(function() {
         var statusVal = $('#statusFilter').val();
         var typeVal = $('#typeFilter').val();
         var sortDirection = $('#sortDirection').val();
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
 
         $.ajax({
-            url: '/reservation/getAllCars',
+            url: '/reservation/getAvailableCarsToday',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -22,8 +20,6 @@ $(document).ready(function() {
                 status: statusVal,
                 type: typeVal,
                 sort: sortDirection,
-                startDate: startDate,
-                endDate: endDate
             },
             success: function(data) {
                 displayCars(data);

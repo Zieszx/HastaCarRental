@@ -40,14 +40,6 @@
                                                     <input type="text" class="form-control" id="searchInput" placeholder="Search...">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <select class="form-select" id="statusFilter">
-                                                        <option value="">Filter by Status</option>
-                                                        <option value="Available">Available</option>
-                                                        <option value="Maintenance">Maintenance</option>
-                                                        <option value="Unavailable">Unavailable</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <select class="form-select" id="typeFilter">
                                                         <option value="">Filter by Type</option>
                                                         <option value="Sedan">Sedan</option>
@@ -57,23 +49,19 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
+                                                    <select class="form-select" id="statusFilter">
+                                                        <option value="">Filter by Status</option>
+                                                        <option value="Available">Available</option>
+                                                        <option value="Maintenance">Maintenance</option>
+                                                        <option value="Unavailable">Unavailable</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <select class="form-select" id="sortDirection">
                                                         <option value="">Filter by Price</option>
                                                         <option value="asc">Price: Low to High</option>
                                                         <option value="desc">Price: High to Low</option>
                                                     </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="">
-                                                    <h5 class="card-title fw-semibold mb-4">Reserve Date</h5>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="date" class="form-control" id="startDate" placeholder="Start Date">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="date" class="form-control" id="endDate" placeholder="End Date">
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +83,7 @@
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
     <script th:src="@{/js/dashboard.js}"></script>
-    <script th:src="@{/js/viewVehicle.js}"></script>
+    <script th:src="@{/js/viewVehicleToday.js}"></script>
 </body>
 
 </html>
