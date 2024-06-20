@@ -15,14 +15,14 @@ public class VehicleServices {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public List<Vehicle> getAllVehicle() {
+    public List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
         vehicleRepository.findAll().forEach(vehicles::add);
         return vehicles;
     }
 
-    public Vehicle getVehicle(int id) {
-        return vehicleRepository.findById(id).get();
+    public Vehicle getVehicle(int vehicleId) {
+        return vehicleRepository.findById(vehicleId).orElse(null);
     }
 
     public void addVehicle(Vehicle vehicle) {
@@ -33,8 +33,8 @@ public class VehicleServices {
         vehicleRepository.save(vehicle);
     }
 
-    public void deleteVehicle(int id) {
-        vehicleRepository.deleteById(id);
+    public void deleteVehicle(int vehicleId) {
+        vehicleRepository.deleteById(vehicleId);
     }
 
 }

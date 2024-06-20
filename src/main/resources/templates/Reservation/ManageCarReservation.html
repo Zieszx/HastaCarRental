@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Dashboard(main) Page for Hasta Management System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manage Car Reservation</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4">Reservation Management</h5>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table id="reservationtb" class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Vehicle</th>
+                                            <th>Customer</th>
+                                            <th>Reservation Pickup Location</th>
+                                            <th>Reservation Return Location</th>
+                                            <th>Reservation Start Date</th>
+                                            <th>Reservation End Date</th>
+                                            <th>Reservation Time</th>
+                                            <th>Reservation Hours</th>
+                                            <th>Reservation Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Your Thymeleaf iteration here -->
+                                        <tr th:each="reservation, iterStat : ${reservations}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${reservation.vehicleID.vehicleBrand} +' ' + ${reservation.vehicleID.vehicleModel}"></td>
+                                            <td th:text="${reservation.customerID.custName}"></td>
+                                            <td th:text="${reservation.reservationPickupLocation}"></td>
+                                            <td th:text="${reservation.reservationReturnLocation}"></td>
+                                            <td th:text="${reservation.reservationStartDate}"></td>
+                                            <td th:text="${reservation.reservationEndDate}"></td>
+                                            <td th:text="${reservation.reservationTime}"></td>
+                                            <td th:text="${reservation.reservationHours}"></td>
+                                            <td th:text="${reservation.reservationStatus}"></td>
+                                            <td>
+                                                <a th:href="@{/reservation/updatereservation(reservationID=${reservation.reservationID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${reservation.reservationID}" data-args="/reservation/deletereservation?reservationID=">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Vehicle</th>
+                                            <th>Customer</th>
+                                            <th>Reservation Pickup Location</th>
+                                            <th>Reservation Return Location</th>
+                                            <th>Reservation Start Date</th>
+                                            <th>Reservation End Date</th>
+                                            <th>Reservation Time</th>
+                                            <th>Reservation Hours</th>
+                                            <th>Reservation Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script>
+        var annexTable = $('#reservationtb').DataTable({
+            deferRender: true,
+            scrollCollapse: true,
+            fixedColumns: true,
+            paging: false,
+
+            dom: 'Bfrtip',
+            responsive: true,
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            buttons: [
+                'excel',
+                'pdf'
+            ]
+        });
+
+        annexTable.on('click', 'tbody tr', function() {
+            var $row = annexTable.row(this).nodes().to$();
+            var hasClass = $row.hasClass('selected');
+            if (hasClass) {
+                $row.removeClass('selected')
+            } else {
+                $row.addClass('selected')
+            }
+        })
+
+        annexTable.rows().every(function() {
+            this.nodes().to$().removeClass('selected')
+        });
+    </script>
+</body>
+
+</html>

@@ -44,7 +44,7 @@ public class StaffContoller {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
-        List<Staff> staffs = staffServices.getAllStaff();
+        List<Staff> staffs = staffServices.getAllStaffs();
         model.addAttribute("staffs", staffs);
         return "Management/MainStaff";
     }

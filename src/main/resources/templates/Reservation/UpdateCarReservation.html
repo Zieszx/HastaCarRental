@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Form for reserved the selected car from view a;; cars">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Car Reservation</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Update Car Reservation Status</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary confirm-reservation-btn" th:data-reservationid="${reservation.reservationID}">Confirm Reservation</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary additional-payment-btn" th:data-reservationid="${reservation.reservationID}">Additional Payment</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-danger cancel-reservation-btn" th:data-reservationid="${reservation.reservationID}">Cancel Reservation</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-info return-reservation-btn" th:data-reservationid="${reservation.reservationID}">Return Car</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="card-title fw-semibold mb-4">Update Car Reservation</h5>
+                                <form id="reservationForm" method="post" th:object="${reservation}" th:action="@{/reservation/updatereservation}" class="needs-validation" enctype="multipart/form-data" novalidate>
+                                    <input type="hidden" name="reservationID" th:field="*{reservationID}">
+                                    <div class="mb-3">
+                                        <label for="pickupLocation">Pickup Location:</label>
+                                        <input type="text" id="pickupLocation" th:field="*{reservationPickupLocation}" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Pickup Location.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="returnLocation">Return Location:</label>
+                                        <input type="text" id="returnLocation" th:field="*{reservationReturnLocation}" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Return Location.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="startDate">Start Date:</label>
+                                        <input type="date" id="startDate" th:field="*{reservationStartDate}" class="form-control" readonly required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Start Date.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="endDate">End Date:</label>
+                                        <input type="date" id="endDate" th:field="*{reservationEndDate}" class="form-control" readonly required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid End Date.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hours">Reservation Hours:</label>
+                                        <input type="number" id="hours" th:field="*{reservationHours}" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Reservation Hours.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="time">Reservation Time:</label>
+                                        <input type="text" id="time" th:field="*{reservationTime}" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Reservation Time.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="deposit">Deposit Amount:</label>
+                                        <input type="number" id="deposit" th:field="*{paymentID.paymentDeposit}" name="paymentDeposit" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Deposit Amount.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="deposit">Payment Method:</label>
+                                        <select id="paymentMethod" name="paymentMethod" class="form-select" th:field="*{paymentID.paymentMethod}" required>
+                                            <option value="">Select Payment Method</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="EWallet">EWallet</option>
+                                            <option value="FPX">FPX</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Payment Method.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="deposit">Deposit Image:</label>
+                                        <input type="file" class="form-control form-control-file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Deposit Image.
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="vehicleID" th:field="*{vehicleID.vehicleID}">
+                                    <input type="hidden" name="custID" th:field="*{customerID.custID}">
+                                    <input type="hidden" name="paymentID" th:field="*{paymentID.paymentId}">
+                                    <input type="hidden" name="reservationStatus" th:field="*{reservationStatus}">
+                                    <button type="submit" class="btn btn-primary">Update Reservation Details</button>
+                                </form>
+                            </div>
+                            <div class="col-md-4 border-start">
+                                <div class="mt-4" th:object="${customer}">
+                                    <h5 class="card-title fw-semibold">Customer Details</h5>
+                                    <p><strong>Name   :</strong> <span th:text="*{custName}"></span></p>
+                                    <p><strong>Phone  :</strong> <span th:text="*{custPhone}"></span></p>
+                                    <p><strong>Email  :</strong> <span th:text="*{custEmail}"></span></p>
+                                    <p><strong>Licence:</strong> <span th:text="*{custDLicense}"></span></p>
+                                    <p><strong>Address:</strong> <span th:text="*{custAddress}"></span></p>
+                                </div>
+                                <div class="mt-4" th:object="${payment}">
+                                    <h5 class="card-title fw-semibold">
+                                        Payment Details
+                                    </h5>
+                                    <p><strong>Deposit Amount: </strong><span th:text="*{paymentDeposit}"></span></p>
+                                    <p><strong>Payment Amount: </strong><span th:text="*{paymentAmount}"></span></p>
+                                    <p><strong>Payment Status: </strong><span th:text="*{paymentStatus}"></span></p>
+                                    <div th:if="${depositImage}">
+                                        <p><strong>Deposit Image: </strong><a th:href="@{/payment/paymentImage(paymentID=*{paymentId}, paymentType='deposit')}">Show Deposit</a></p>
+                                    </div>
+                                    <div th:if="${fullImage}">
+                                        <p><strong>Full Payment Image: </strong><a th:href="@{/payment/paymentImage(paymentID=*{paymentId}, paymentType='full')}">Show Full Payment</a></p>
+                                    </div>
+                                    <div th:if="${additionalImage}">
+                                        <p><strong>Additional Payment Image: </strong><a th:href="@{/payment/paymentImage(paymentID=*{paymentId}, paymentType='additional')}">Show Additional Payment</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 border-start">
+                                <div class="mt-4" th:object="${vehicle}">
+                                    <h5 class="card-title fw-semibold">Vehicle Details</h5>
+                                    <div class="mb-3">
+                                        <img th:src="@{/vehicle/displayVehicleImage(vehicleID=*{vehicleID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.vehicleModel}" />
+                                    </div>
+                                    <p><strong>Model:</strong> <span th:text="*{vehicleModel}"></span></p>
+                                    <p><strong>Year:</strong> <span th:text="*{vehicleYear}"></span></p>
+                                    <p><strong>Plate Number:</strong> <span th:text="*{vehicleLicensePlate}"></span></p>
+                                    <p><strong>Price per Hour:</strong> <span id="pricePerHour" th:text="*{vehicleReservedperHours}" th:data-price-perhour="*{vehicleReservedperHours}"></span></p>
+                                    <p><strong>Total Amount:</strong> RM <span id="totalAmount" th:text="${reservation.paymentID.paymentAmount}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Calculate total amount based on reservation hours and price per hour
+            $('#hours').on('input', function() {
+                var hours = $(this).val();
+                var pricePerHour = $('#pricePerHour').data('price-perhour');
+                var totalAmount = hours * pricePerHour;
+                $('#totalAmount').text(totalAmount.toFixed(2));
+            });
+        });
+
+        $(document).ready(function() {
+            $("#reservationReasonDeleted").summernote({
+                height: 250,
+                minHeight: null,
+                maxHeight: null,
+                focus: false
+            });
+
+            $(".inline-editor").summernote({
+                airMode: true
+            });
+        });
+
+        window.edit = function() {
+            $(".click2edit").summernote();
+        };
+
+        window.save = function() {
+            $(".click2edit").summernote("destroy");
+        };
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+
+            function confirmReservation(reservationID) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Confirm Reservation',
+                    html: `
+                        <form id="confirmReservationForm" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="reservationID" value=${reservationID}>
+                            <div class="mb-3">
+                                <label for="fullPaymentAmount">Full Payment Amount:</label>
+                                <input type="number" id="fullPaymentAmount" name="paymentAmount" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fullPaymentImage">Full Payment Image:</label>
+                                <input type="file" class="form-control" id="fullPaymentImage" name="fullPaymentImage" accept=".jpg, .jpeg, .png" required>
+                            </div>
+                        </form>`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm',
+                    preConfirm: () => {
+                        const formData = new FormData($('#confirmReservationForm')[0]);
+                        formData.append('reservationID', reservationID); // Append reservation ID to form data
+                        return $.ajax({
+                            url: '/reservation/confirmreservation',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Reservation Confirmed!',
+                                    text: '',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = "/reservation/manageReservation";
+                                    }
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                swalWithBootstrapButtons.fire('Error', `Request failed: ${error}`, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            function additionalPayment(reservationID) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Additional Payment',
+                    html: `
+                        <form id="additionalPaymentForm" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="reservationID" value=${reservationID}>
+                            <div class="mb-3">
+                                <label for="additionalAmount">Additional Amount:</label>
+                                <input type="number" id="additionalAmount" name="paymentAmount" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="paymentDescriptions">Description (Why?):</label>
+                                <input type="text" id="paymentDescriptions" name="paymentDescriptions" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="additionalImage">Additional Image:</label>
+                                <input type="file" class="form-control" id="additionalImage" name="additionalImage" accept=".jpg, .jpeg, .png" required>
+                            </div>
+                        </form>`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Add Payment',
+                    preConfirm: () => {
+                        const formData = new FormData($('#additionalPaymentForm')[0]);
+                        formData.append('reservationID', reservationID); // Append reservation ID to form data
+                        return $.ajax({
+                            url: '/reservation/additionalpayment',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Additional Payment Added!',
+                                    text: '',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = "/reservation/manageReservation";
+                                    }
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                swalWithBootstrapButtons.fire('Error', `Request failed: ${error}`, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            function cancelReservation(reservationID) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Cancel Reservation',
+                    html: `
+                        <form id="cancelReservationForm" method="post">
+                            <input type="hidden" name="reservationID" value=${reservationID}>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="reservationReasonDeleted" name="reservationReasonDeleted" placeholder="Reason for Cancellation" required></textarea>
+                            </div>
+                        </form>`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Cancel Reservation',
+                    preConfirm: () => {
+                        const formData = new FormData($('#cancelReservationForm')[0]);
+                        formData.append('reservationID', reservationID); // Append reservation ID to form data
+                        return $.ajax({
+                            url: '/reservation/cancelreservation',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Reservation Cancelled!',
+                                    text: '',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = "/reservation/manageReservation";
+                                    }
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                swalWithBootstrapButtons.fire('Error', `Request failed: ${error}`, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            function returnCarReservation(reservationID) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Return Car Reservations',
+                    html: `
+                        <form id="returnCarReservation" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="reservationID" value=${reservationID}>
+                        </form>`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Return Car Reservation',
+                    preConfirm: () => {
+                        const formData = new FormData($('#returnCarReservation')[0]);
+                        formData.append('reservationID', reservationID); // Append reservation ID to form data
+                        return $.ajax({
+                            url: '/reservation/returncar',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Car Reservation Returned!',
+                                    text: '',
+                                    icon: 'success'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = "/reservation/manageReservation";
+                                    }
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                swalWithBootstrapButtons.fire('Error', `Request failed: ${error}`, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Bind the functions to buttons with the correct reservation ID
+            $('.confirm-reservation-btn').on('click', function() {
+                const reservationID = $(this).data('reservationid');
+                confirmReservation(reservationID);
+            });
+
+            $('.additional-payment-btn').on('click', function() {
+                const reservationID = $(this).data('reservationid');
+                additionalPayment(reservationID);
+            });
+
+            $('.cancel-reservation-btn').on('click', function() {
+                const reservationID = $(this).data('reservationid');
+                cancelReservation(reservationID);
+            });
+
+            $('.return-reservation-btn').on('click', function() {
+                const reservationID = $(this).data('reservationid');
+                returnCarReservation(reservationID);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

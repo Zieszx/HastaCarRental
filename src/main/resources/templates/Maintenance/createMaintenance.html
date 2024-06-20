@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Form for creating a maintenance record">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Maintenance Record</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4">Create Maintenance Record</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="maintenanceForm" method="post" th:object="${maintenance}" th:action="@{/maintenance/createMaintenance}" class="needs-validation" enctype="multipart/form-data" novalidate>
+                                        <div class="mb-3">
+                                            <label for="maintenanceDesc">Maintenance Description:</label>
+                                            <textarea id="maintenanceDesc" th:field="*{maintenanceDesc}" class="form-control" rows="5" required></textarea>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid maintenance description.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="maintenanceMileeageDuring">Mileage During Maintenance:</label>
+                                            <input type="number" id="maintenanceMileeageDuring" th:field="*{maintenanceMileeageDuring}" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid mileage.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="maintenanceDate">Maintenance Date:</label>
+                                            <input type="date" id="maintenanceDate" th:field="*{maintenanceDate}" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid maintenance date.
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="vehicleID" th:value="${vehicle.vehicleID}">
+                                        <button type="submit" class="btn btn-primary">Create Maintenance Record</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6 border-start">
+                                    <div class="mt-4" th:object="${vehicle}">
+                                        <h5 class="card-title fw-semibold">Vehicle Details</h5>
+                                        <div class="mb-3">
+                                            <img th:src="@{/vehicle/displayVehicleImage(vehicleID=*{vehicleID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.vehicleModel}" />
+                                        </div>
+                                        <p><strong>Model:</strong> <span th:text="*{vehicleModel}"></span></p>
+                                        <p><strong>Year:</strong> <span th:text="*{vehicleYear}"></span></p>
+                                        <p><strong>Plate Number:</strong> <span th:text="*{vehicleLicensePlate}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script>
+        $(document).ready(function() {
+            // Select the form element
+            var form = $('form.needs-validation');
+
+            // Submit event listener
+            form.on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'), // Get the action URL from the form
+                    data: form.serialize(), // Serialize form data
+                    success: function(response) {
+                        // Show SweetAlert success message
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'New maintenance details created and saved successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function() {
+                            // Redirect to the desired page
+                            window.location.href = '/maintenance/viewCartoMaintenance';
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Show SweetAlert error message
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while creating maintenance details.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

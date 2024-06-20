@@ -46,7 +46,7 @@ public class Payment {
     private byte[] paymentFullimage;
 
     @Lob
-    @Column(name = "Additional_image", columnDefinition = "MEDIUMBLOB", nullable = true)
-    private byte[] Additional_image;
+    @Column(name = "paymentAdditionalimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    private byte[] paymentAdditionalimage;
 
 }

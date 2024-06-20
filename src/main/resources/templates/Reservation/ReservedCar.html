@@ -90,6 +90,18 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="deposit">Payment Method:</label>
+                                        <select id="paymentMethod" name="paymentMethod" class="form-select" required>
+                                            <option value="">Select Payment Method</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="EWallet">EWallet</option>
+                                            <option value="FPX">FPX</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid Payment Method.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="deposit">Deposit Image:</label>
                                         <input type="file" class="form-control form-control-file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required>
                                         <div class="invalid-feedback">

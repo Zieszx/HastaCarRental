@@ -1,7 +1,7 @@
 $(document).ready(function() {
     loadCars();
 
-    $('#searchInput, #typeFilter, #sortDirection').on('change keyup', function() {
+    $('#searchInput, #typeFilter').on('change keyup', function() {
         loadCars();
     });
 
@@ -9,17 +9,15 @@ $(document).ready(function() {
         var searchVal = $('#searchInput').val();
         var statusVal = $('#statusFilter').val();
         var typeVal = $('#typeFilter').val();
-        var sortDirection = $('#sortDirection').val();
 
         $.ajax({
-            url: '/reservation/getAvailableCarsToday',
+            url: '/maintenance/getAllCarstoMaintenance',
             type: 'GET',
             dataType: 'json',
             data: {
                 search: searchVal,
                 status: statusVal,
                 type: typeVal,
-                sort: sortDirection,
             },
             success: function(data) {
                 displayCars(data);
@@ -47,7 +45,7 @@ $(document).ready(function() {
                 '<p class="card-text">' + car.vehicleType + '</p>' +
                 '</div>' +
                 '<div class="text-center mt-3">' +
-                (car.vehicleStatus === 'Available' ? '<a href="/reservation/reservedCar/exactDate?vehicleID=' + car.vehicleID + '" class="btn btn-primary">Book</a>' :
+                (car.vehicleStatus === 'Available' ? '<a href="/maintenance/createMaintenance?vehicleID=' + car.vehicleID + '" class="btn btn-primary">Create Maintenance</a>' :
                     (car.vehicleStatus === 'Maintenance' ? '<button class="btn btn-warning" disabled>Maintenance</button>' :
                         '<button class="btn btn-danger" disabled>Unavailable</button>')) +
                 '</div>' +

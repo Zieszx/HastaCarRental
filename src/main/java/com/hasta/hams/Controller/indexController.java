@@ -46,7 +46,7 @@ public class indexController {
             @RequestParam("Password") String password, HttpSession session) {
 
         List<Adminstrative> adminstratives = adminstrativeServices.getAllAdminstrative();
-        List<Staff> staffs = staffServices.getAllStaff();
+        List<Staff> staffs = staffServices.getAllStaffs();
 
         if (session.getAttribute("user") != null)
             return "redirect:/dashboard";

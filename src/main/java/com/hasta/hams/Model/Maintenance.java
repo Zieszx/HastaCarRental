@@ -18,7 +18,7 @@ public class Maintenance {
     @Column(name = "maintenanceID")
     private int maintenanceID;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "vehicleID")
     private Vehicle vehicleID;
 

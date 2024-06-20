@@ -21,8 +21,8 @@ public class CustomerServices {
         return customers;
     }
 
-    public Customer getCustomer(int id) {
-        return customerRepository.findById(id).get();
+    public Customer getCustomer(int customerId) {
+        return customerRepository.findById(customerId).orElse(null);
     }
 
     public void addCustomer(Customer customer) {
@@ -33,8 +33,8 @@ public class CustomerServices {
         customerRepository.save(customer);
     }
 
-    public void deleteCustomer(int id) {
-        customerRepository.deleteById(id);
+    public void deleteCustomer(int customerId) {
+        customerRepository.deleteById(customerId);
     }
 
     public boolean emailExists(String custEmail) {

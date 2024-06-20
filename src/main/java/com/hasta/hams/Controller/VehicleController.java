@@ -36,34 +36,14 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class VehicleController {
 
     private VehicleServices vehicleServices;
-
-    public byte[] setimageinDB(MultipartFile tempfile) {
-        byte[] imageBytes = null;
-        if (tempfile != null && !tempfile.isEmpty()) {
-            try {
-                imageBytes = tempfile.getBytes();
-            } catch (IOException e) {
-                // Handle the exception
-                e.printStackTrace(); // Log or handle the exception appropriately
-            }
-        }
-        return imageBytes;
-    }
-
-    @GetMapping("/vehicle/displayVehicleImage")
-    public ResponseEntity<ByteArrayResource> displayVehicleImage(@RequestParam("vehicleID") int id)
-            throws IOException {
-        Vehicle vehicle = vehicleServices.getVehicle(id);
-        byte[] image = vehicle.getVehicleImage();
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new ByteArrayResource(image));
-    }
+    private ImageController imageController;
 
     @GetMapping("/management/vehicles")
     public String vehicles(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
-        List<Vehicle> vehicles = vehicleServices.getAllVehicle();
+        List<Vehicle> vehicles = vehicleServices.getAllVehicles();
         model.addAttribute("vehicles", vehicles);
         return "Management/MainVehicle";
     }
@@ -83,7 +63,7 @@ public class VehicleController {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
-        vehicle.setVehicleImage(setimageinDB(imageFile));
+        vehicle.setVehicleImage(imageController.setimageinDB(imageFile));
         vehicleServices.addVehicle(vehicle);
 
         return "redirect:/management/addVehicle";
@@ -106,7 +86,7 @@ public class VehicleController {
             return "redirect:/";
 
         if (imageFile != null && !imageFile.isEmpty() && StringUtils.hasText(imageFile.getOriginalFilename())) {
-            vehicle.setVehicleImage(setimageinDB(imageFile));
+            vehicle.setVehicleImage(imageController.setimageinDB(imageFile));
         } else {
             Vehicle temp = vehicleServices.getVehicle(vehicle.getVehicleID());
             vehicle.setVehicleImage(temp.getVehicleImage());
@@ -124,6 +104,16 @@ public class VehicleController {
         vehicleServices.deleteVehicle(id);
 
         return "redirect:/management/vehicles";
+    }
+
+    @GetMapping("/vehicle/vehiclejson/{vehicleID}")
+    public ResponseEntity<Vehicle> getVehicle(@PathVariable int vehicleID) {
+        Vehicle vehicle = vehicleServices.getVehicle(vehicleID);
+        if (vehicle != null) {
+            return ResponseEntity.ok().body(vehicle);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

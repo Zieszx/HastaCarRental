@@ -21,8 +21,8 @@ public class MaintenanceServices {
         return maintenances;
     }
 
-    public Maintenance getMaintenance(int id) {
-        return maintenanceRepository.findById(id).get();
+    public Maintenance getMaintenance(int maintenanceId) {
+        return maintenanceRepository.findById(maintenanceId).orElse(null);
     }
 
     public void addMaintenance(Maintenance maintenance) {
@@ -33,8 +33,8 @@ public class MaintenanceServices {
         maintenanceRepository.save(maintenance);
     }
 
-    public void deleteMaintenance(int id) {
-        maintenanceRepository.deleteById(id);
+    public void deleteMaintenance(int maintenanceId) {
+        maintenanceRepository.deleteById(maintenanceId);
     }
 
 }

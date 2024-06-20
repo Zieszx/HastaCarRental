@@ -15,14 +15,14 @@ public class StaffServices {
     @Autowired
     private StaffRepository staffRepository;
 
-    public List<Staff> getAllStaff() {
+    public List<Staff> getAllStaffs() {
         List<Staff> staffs = new ArrayList<>();
         staffRepository.findAll().forEach(staffs::add);
         return staffs;
     }
 
-    public Staff getStaff(int id) {
-        return staffRepository.findById(id).get();
+    public Staff getStaff(int staffId) {
+        return staffRepository.findById(staffId).orElse(null);
     }
 
     public void addStaff(Staff staff) {
@@ -33,8 +33,8 @@ public class StaffServices {
         staffRepository.save(staff);
     }
 
-    public void deleteStaff(int id) {
-        staffRepository.deleteById(id);
+    public void deleteStaff(int staffId) {
+        staffRepository.deleteById(staffId);
     }
 
 }

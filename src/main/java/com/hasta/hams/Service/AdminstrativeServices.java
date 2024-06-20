@@ -20,8 +20,8 @@ public class AdminstrativeServices {
         return adminstratives;
     }
 
-    public Adminstrative getAdminstrative(int id) {
-        return adminstrativeRepository.findById(id).get();
+    public Adminstrative getAdminstrative(int adminId) {
+        return adminstrativeRepository.findById(adminId).orElse(null);
     }
 
     public void addAdminstrative(Adminstrative adminstrative) {
@@ -32,7 +32,7 @@ public class AdminstrativeServices {
         adminstrativeRepository.save(adminstrative);
     }
 
-    public void deleteAdminstrative(int id) {
-        adminstrativeRepository.deleteById(id);
+    public void deleteAdminstrative(int adminId) {
+        adminstrativeRepository.deleteById(adminId);
     }
 }

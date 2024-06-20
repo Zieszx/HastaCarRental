@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="To see all the maintenance car for Hasta Management System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View All Maintenance Cars Event</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4">View all Maintenance Cars</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+    <script th:src="@{/js/CalendarMaintenance.js}"></script>
+</body>
+
+</html>

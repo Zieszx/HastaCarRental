@@ -25,8 +25,8 @@ public class PaymentServices {
         return payments;
     }
 
-    public Payment getPayment(int id) {
-        return paymentRepository.findById(id).get();
+    public Payment getPayment(int paymentid) {
+        return paymentRepository.findById(paymentid).orElse(null);
     }
 
     public void addPayment(Payment payment) {
@@ -37,8 +37,8 @@ public class PaymentServices {
         paymentRepository.save(payment);
     }
 
-    public void deletePayment(int id) {
-        paymentRepository.deleteById(id);
+    public void deletePayment(int paymentId) {
+        paymentRepository.deleteById(paymentId);
     }
 
 }

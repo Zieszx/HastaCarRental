@@ -19,11 +19,11 @@ public class Reservation {
     @Column(name = "reservationID")
     private int reservationID;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customerID")
     private Customer customerID;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "vehicleID")
     private Vehicle vehicleID;
 
@@ -50,11 +50,10 @@ public class Reservation {
     @Column(name = "reservationHours")
     private int reservationHours;
 
-    // Booked, Confirm, Return, Refund, Cancel
+    // Booked, Confirmed, Returned, Refund, Cancel
     @Column(name = "reservationStatus")
     private String reservationStatus;
 
     @Column(name = "reservationReasonDeleted", columnDefinition = "LONGTEXT", nullable = true)
     private String reservationReasonDeleted;
-
 }
