@@ -90,10 +90,10 @@
 
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
-    <script th:src="@{/js/dashboard.js}"></script>
+
     <script th:src="@{/js/sweetalert-delete.js}"></script>
     <script>
-        var annexTable = $('#customertb').DataTable({
+        var customerTable = $('#customertb').DataTable({
             deferRender: true,
             scrollCollapse: true,
             fixedColumns: true,
@@ -111,8 +111,8 @@
             ]
         });
 
-        annexTable.on('click', 'tbody tr', function() {
-            var $row = annexTable.row(this).nodes().to$();
+        customerTable.on('click', 'tbody tr', function() {
+            var $row = customerTable.row(this).nodes().to$();
             var hasClass = $row.hasClass('selected');
             if (hasClass) {
                 $row.removeClass('selected')
@@ -121,7 +121,7 @@
             }
         })
 
-        annexTable.rows().every(function() {
+        customerTable.rows().every(function() {
             this.nodes().to$().removeClass('selected')
         });
     </script>

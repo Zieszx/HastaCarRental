@@ -1,5 +1,7 @@
 package com.hasta.hams.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,14 +41,17 @@ public class Payment {
 
     @Lob
     @Column(name = "paymentDepositimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    @JsonIgnore
     private byte[] paymentDepositimage;
 
     @Lob
     @Column(name = "paymentFullimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    @JsonIgnore
     private byte[] paymentFullimage;
 
     @Lob
     @Column(name = "paymentAdditionalimage", columnDefinition = "MEDIUMBLOB", nullable = true)
+    @JsonIgnore
     private byte[] paymentAdditionalimage;
 
 }

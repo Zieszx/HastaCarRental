@@ -2,6 +2,8 @@ package com.hasta.hams.Model;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,6 +51,7 @@ public class Vehicle {
 
     @Lob
     @Column(name = "vehicleImage", columnDefinition = "MEDIUMBLOB")
+    @JsonIgnore
     private byte[] vehicleImage;
 
     @Transient

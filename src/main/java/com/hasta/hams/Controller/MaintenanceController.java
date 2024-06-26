@@ -76,28 +76,43 @@ public class MaintenanceController {
         return "Maintenance/viewAllMaintenance";
     }
 
-    @GetMapping("/Maintenancejson")
-    public ResponseEntity<List<Maintenance>> getAllMaintenance() {
-        List<Maintenance> maintenances = maintenanceServices.getAllMaintenance();
-        return ResponseEntity.ok().body(maintenances);
+    @GetMapping("/manageMaintenance")
+    public String manageMaintenance(Model model) {
+        model.addAttribute("maintenances", maintenanceServices.getAllMaintenance());
+        return "Maintenance/manageMaintenance";
     }
 
-    @GetMapping("/getAllCarstoMaintenance")
-    public ResponseEntity<List<Vehicle>> getAllCars(
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "type", required = false) String type) {
+    @GetMapping("/updateMaintenance")
+    public String updateMaintenance(@RequestParam("maintenanceID") int maintenanceID, Model model) {
+        Maintenance maintenance = maintenanceServices.getMaintenance(maintenanceID);
+        model.addAttribute("maintenance", maintenance);
+        Vehicle vehicle = vehicleServices.getVehicle(maintenance.getVehicleID().getVehicleID());
+        model.addAttribute("vehicle", vehicle);
+        return "Maintenance/updateMaintenance";
+    }
 
-        List<Vehicle> vehicles = vehicleServices.getAllVehicles();
+    @PostMapping("/updateMaintenance")
+    public String updateMaintenance(@ModelAttribute("maintenance") Maintenance maintenance,
+            RedirectAttributes redirectAttributes) {
+        maintenanceServices.updateMaintenance(maintenance);
+        if (maintenance.getMaintenanceStatus().equalsIgnoreCase("Complete")) {
+            Vehicle vehicle = vehicleServices.getVehicle(maintenance.getVehicleID().getVehicleID());
+            vehicle.setVehicleStatus("Available");
+            vehicleServices.updateVehicle(vehicle);
+        } else {
+            Vehicle vehicle = vehicleServices.getVehicle(maintenance.getVehicleID().getVehicleID());
+            vehicle.setVehicleStatus("Maintenance");
+            vehicleServices.updateVehicle(vehicle);
+        }
+        redirectAttributes.addFlashAttribute("message", "Maintenance updated successfully!");
+        return "redirect:/maintenance/manageMaintenance";
+    }
 
-        // Filter vehicles based on search, status, and type
-        List<Vehicle> filteredVehicles = vehicles.stream()
-                .filter(vehicle -> (search == null
-                        || vehicle.getVehicleModel().toLowerCase().contains(search.toLowerCase())) &&
-                        (status == null || status.isEmpty() || vehicle.getVehicleStatus().equalsIgnoreCase(status)) &&
-                        (type == null || type.isEmpty() || vehicle.getVehicleType().equalsIgnoreCase(type)))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok().body(filteredVehicles);
+    @GetMapping("/deleteMaintenance")
+    public String deleteMaintenance(@RequestParam("maintenanceID") int maintenanceID,
+            RedirectAttributes redirectAttributes) {
+        maintenanceServices.deleteMaintenance(maintenanceID);
+        redirectAttributes.addFlashAttribute("message", "Maintenance deleted successfully!");
+        return "redirect:/maintenance/manageMaintenance";
     }
 }

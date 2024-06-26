@@ -98,10 +98,10 @@
 
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
-    <script th:src="@{/js/dashboard.js}"></script>
+
     <script th:src="@{/js/sweetalert-delete.js}"></script>
     <script>
-        var annexTable = $('#vehicletb').DataTable({
+        var vehicleTable = $('#vehicletb').DataTable({
             deferRender: true,
             scrollCollapse: true,
             fixedColumns: true,
@@ -119,8 +119,8 @@
             ]
         });
 
-        annexTable.on('click', 'tbody tr', function() {
-            var $row = annexTable.row(this).nodes().to$();
+        vehicleTable.on('click', 'tbody tr', function() {
+            var $row = vehicleTable.row(this).nodes().to$();
             var hasClass = $row.hasClass('selected');
             if (hasClass) {
                 $row.removeClass('selected')
@@ -129,7 +129,7 @@
             }
         })
 
-        annexTable.rows().every(function() {
+        vehicleTable.rows().every(function() {
             this.nodes().to$().removeClass('selected')
         });
     </script>

@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                         title: 'Maintenance Details',
                         html: `
+                            <img src="/vehicle/displayVehicleImage?vehicleID=${vehicle.vehicleID}" class="card-img-top img-fluid img-viewCar mb-2" alt="${vehicle.vehicleModel}">
                             <p><strong>Vehicle Model:</strong> ${vehicle.vehicleModel}</p>
                             <p><strong>Vehicle Brand:</strong> ${vehicle.vehicleBrand}</p>
                             <p><strong>Vehicle Type:</strong> ${vehicle.vehicleType}</p>
@@ -51,10 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p><strong>Mileage During Maintenance:</strong> ${info.event.extendedProps.maintenanceMileeageDuring}</p>
                             <p><strong>Maintenance Status:</strong> ${info.event.extendedProps.maintenanceStatus}</p>
                         `,
-                        imageUrl: `data:image/jpeg;base64,${vehicle.vehicleImage}`,
-                        imageWidth: 400,
-                        imageHeight: 200,
-                        imageAlt: 'Vehicle Image'
                     });
                 })
                 .catch(error => console.error('Error fetching vehicle data:', error));

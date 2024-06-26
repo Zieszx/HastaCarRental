@@ -1,11 +1,7 @@
 package com.hasta.hams.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +23,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.time.format.DateTimeFormatter;
 import java.io.IOException;
+
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -273,6 +270,7 @@ public class ReservationController {
         payment.setPaymentFullimage(imageController.setimageinDB(fullPaymentImage));
         paymentService.savePayment(payment);
         reservation.setReservationStatus("Confirmed");
+        reservation.setReservationReasonDeleted("Null");
         try {
             reservationService.updateReservationStatus(reservation);
             redirectAttributes.addFlashAttribute("success", "Reservation updated successfully.");
@@ -333,94 +331,18 @@ public class ReservationController {
         vehicleService.updateVehicle(vehicle);
 
         reservation.setReservationStatus("Returned");
+        reservation.setReservationReasonDeleted("Null");
         reservationService.updateReservation(reservation);
 
         return "redirect:/reservation/manageReservation";
     }
 
-    // Api to get all cars json data except the image
-    @GetMapping("/getAllCars")
-    public ResponseEntity<List<Vehicle>> getAllCars(
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "sort", required = false) String sort,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-
-        List<Vehicle> vehicles = vehicleService.getAllVehicles();
-
-        // Filter vehicles based on search, status, and type
-        List<Vehicle> filteredVehicles = vehicles.stream()
-                .filter(vehicle -> (search == null
-                        || vehicle.getVehicleModel().toLowerCase().contains(search.toLowerCase())) &&
-                        (status == null || status.isEmpty() || vehicle.getVehicleStatus().equalsIgnoreCase(status)) &&
-                        (type == null || type.isEmpty() || vehicle.getVehicleType().equalsIgnoreCase(type)))
-                .collect(Collectors.toList());
-
-        // Filter vehicles based on date availability
-        if (startDate != null && endDate != null) {
-            List<Reservation> reservations = reservationService.getAllReservations();
-
-            filteredVehicles = filteredVehicles.stream()
-                    .filter(vehicle -> reservations.stream().noneMatch(reservation -> reservation.getVehicleID()
-                            .equals(vehicle) &&
-                            !(convertToLocalDate(reservation.getReservationEndDate()).isBefore(startDate)
-                                    || convertToLocalDate(reservation.getReservationStartDate()).isAfter(endDate))))
-                    .collect(Collectors.toList());
-        }
-
-        // Sort vehicles based on price
-        if ("asc".equalsIgnoreCase(sort)) {
-            filteredVehicles.sort(Comparator.comparingDouble(Vehicle::getVehicleReservedperHours));
-        } else if ("desc".equalsIgnoreCase(sort)) {
-            filteredVehicles.sort(Comparator.comparingDouble(Vehicle::getVehicleReservedperHours).reversed());
-        }
-
-        return ResponseEntity.ok().body(filteredVehicles);
-    }
-
-    private LocalDate convertToLocalDate(Date dateToConvert) {
-        return ((java.sql.Date) dateToConvert).toLocalDate();
-    }
-
-    @GetMapping("/getAvailableCarsToday")
-    public ResponseEntity<List<Vehicle>> getAvailableCarsToday(
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "sort", required = false) String sort) {
-
-        List<Vehicle> vehicles = vehicleService.getAllVehicles();
-
-        // Get today's date
-        LocalDate today = LocalDate.now();
-
-        // Filter vehicles based on search, status, and type
-        List<Vehicle> filteredVehicles = vehicles.stream()
-                .filter(vehicle -> (search == null
-                        || vehicle.getVehicleModel().toLowerCase().contains(search.toLowerCase())) &&
-                        (status == null || status.isEmpty() || vehicle.getVehicleStatus().equalsIgnoreCase(status)) &&
-                        (type == null || type.isEmpty() || vehicle.getVehicleType().equalsIgnoreCase(type)))
-                .collect(Collectors.toList());
-
-        // Filter vehicles based on availability today
-        List<Reservation> reservations = reservationService.getAllReservations();
-        filteredVehicles = filteredVehicles.stream()
-                .filter(vehicle -> reservations.stream().noneMatch(reservation -> reservation.getVehicleID()
-                        .equals(vehicle) &&
-                        !(convertToLocalDate(reservation.getReservationEndDate()).isBefore(today)
-                                || convertToLocalDate(reservation.getReservationStartDate()).isAfter(today))))
-                .collect(Collectors.toList());
-
-        // Sort vehicles based on price
-        if ("asc".equalsIgnoreCase(sort)) {
-            filteredVehicles.sort(Comparator.comparingDouble(Vehicle::getVehicleReservedperHours));
-        } else if ("desc".equalsIgnoreCase(sort)) {
-            filteredVehicles.sort(Comparator.comparingDouble(Vehicle::getVehicleReservedperHours).reversed());
-        }
-
-        return ResponseEntity.ok().body(filteredVehicles);
+    @GetMapping("/deletereservation")
+    public String deleteReservation(@RequestParam("reservationID") int reservationID,
+            RedirectAttributes redirectAttributes) {
+        reservationService.deleteReservation(reservationID);
+        redirectAttributes.addFlashAttribute("success", "Reservation deleted successfully.");
+        return "redirect:/reservation/manageReservation";
     }
 
 }

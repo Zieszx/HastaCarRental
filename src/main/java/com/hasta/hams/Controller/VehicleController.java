@@ -106,14 +106,4 @@ public class VehicleController {
         return "redirect:/management/vehicles";
     }
 
-    @GetMapping("/vehicle/vehiclejson/{vehicleID}")
-    public ResponseEntity<Vehicle> getVehicle(@PathVariable int vehicleID) {
-        Vehicle vehicle = vehicleServices.getVehicle(vehicleID);
-        if (vehicle != null) {
-            return ResponseEntity.ok().body(vehicle);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 }
