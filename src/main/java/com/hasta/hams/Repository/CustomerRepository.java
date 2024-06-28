@@ -1,8 +1,8 @@
-package com.hasta.hams.Repository;
+package com.hasta.hams.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.hasta.hams.Model.Customer;
+import com.hasta.hams.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 

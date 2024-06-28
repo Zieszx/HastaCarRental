@@ -87,62 +87,52 @@
 
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
-
     <script th:src="@{/js/Form-validation-customs.js}"></script>
     <script th:src="@{/js/sweetalert-confirmation.js}"></script>
+
     <script>
-        $(document).ready(function() {
-            $('#custEmail').on('blur', function() {
-                var email = $(this).val();
-                if (email) {
-                    $.ajax({
-                        url: '/api/checkEmail',
-                        type: 'GET',
-                        data: {
-                            email: email
-                        },
-                        success: function(response) {
-                            if (response) {
-                                $('#custEmail').addClass('is-invalid');
-                                $('#custEmail').next('.invalid-feedback').text('This email is already registered.');
+        $('#custEmail').on('change', function() {
+            var email = $(this).val();
+            if (email) {
+                $.ajax({
+                    url: '/api/checkEmail',
+                    type: 'GET',
+                    data: {
+                        email: email
+                    },
+                    success: function(response) {
+                        if (response) {
+                            $('#custEmail').addClass('is-invalid');
+                            $('#custEmail').next('.invalid-feedback').text('This email is already registered.');
+                            $('.confirm-btn').attr('disabled', 'disabled');
+                            $('.confirm-btn').addClass('btn-danger'); // Add btn-danger class
+                        } else {
+                            $('#custEmail').removeClass('is-invalid');
+                            $('#custEmail').next('.invalid-feedback').text('Please provide a valid email address.');
+                            if ($('#custEmail').hasClass('is-invalid')) {
+                                $('.confirm-btn').attr('disabled', 'disabled');
+                                $('.confirm-btn').addClass('btn-danger'); // Add btn-danger class
                             } else {
-                                $('#custEmail').removeClass('is-invalid');
-                                $('#custEmail').next('.invalid-feedback').text('Please provide a valid email address.');
+                                $('.confirm-btn').removeAttr('disabled');
+                                $('.confirm-btn').removeClass('btn-danger'); // Remove btn-danger class
                             }
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
+        });
 
-            $('#registerform').on('submit', function(event) {
-                var email = $('#custEmail').val();
-                var formValid = true;
-
-                if (email) {
-                    $.ajax({
-                        url: '/api/checkEmail',
-                        type: 'GET',
-                        data: {
-                            email: email
-                        },
-                        async: false, // Synchronous call to ensure validation check completes
-                        success: function(response) {
-                            if (response) {
-                                $('#custEmail').addClass('is-invalid');
-                                $('#custEmail').next('.invalid-feedback').text('This email is already registered.');
-                                formValid = false;
-                            }
-                        }
-                    });
-                }
-
-                if (!formValid) {
-                    event.preventDefault();
-                }
-            });
+        $('#registerform').on('submit', function(event) {
+            if ($('#custEmail').hasClass('is-invalid')) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: 'This email is already registered.'
+                });
+            }
         });
     </script>
-
 </body>
 
 </html>

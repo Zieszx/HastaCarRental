@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,8 +15,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.Customer;
-import com.hasta.hams.Service.CustomerServices;
+import com.hasta.hams.model.Customer;
+import com.hasta.hams.model.Notification;
+import com.hasta.hams.service.CustomerServices;
+import com.hasta.hams.service.NotificationServices;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +38,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class CustomerController {
 
     private CustomerServices customerServices;
+    private NotificationController notificationController;
 
     // api for getting all customers from the database
     @GetMapping("/api/checkEmail")
@@ -58,6 +61,13 @@ public class CustomerController {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
+        // Create notification message
+        String notificationMessage = "New customer added: " + customer.getCustName();
+        String notificationTitle = "Customer Registration";
+        String notificationType = "Customer";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
         customerServices.addCustomer(customer);
 
         return "redirect:/home/registercustomer";

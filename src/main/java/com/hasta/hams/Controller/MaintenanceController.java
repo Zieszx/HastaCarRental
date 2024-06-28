@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.*;
-import com.hasta.hams.Service.*;
+import com.hasta.hams.model.*;
+import com.hasta.hams.service.*;
 
 import java.sql.Date;
 
@@ -39,6 +39,7 @@ public class MaintenanceController {
     private final VehicleServices vehicleServices;
     private final MaintenanceServices maintenanceServices;
     private final StaffServices staffServices;
+    private NotificationController notificationController;
 
     @GetMapping("/viewCartoMaintenance")
     public String createMaintenance(Model model) {
@@ -51,12 +52,14 @@ public class MaintenanceController {
         Vehicle vehicle = vehicleServices.getVehicle(vehicleID);
         model.addAttribute("vehicle", vehicle);
         model.addAttribute("maintenance", new Maintenance());
+
         return "Maintenance/createMaintenance";
     }
 
     @PostMapping("/createMaintenance")
     public String createMaintenance(@ModelAttribute("maintenance") Maintenance maintenance,
-            @RequestParam("vehicleID") int vehicleID, RedirectAttributes redirectAttributes) {
+            @RequestParam("vehicleID") int vehicleID,
+            RedirectAttributes redirectAttributes) {
 
         Vehicle vehicle = vehicleServices.getVehicle(vehicleID);
         vehicle.setVehicleStatus("Maintenance");
@@ -64,9 +67,19 @@ public class MaintenanceController {
 
         maintenance.setVehicleID(vehicle);
         maintenance.setMaintenanceStatus("Submitted");
-
         maintenanceServices.addMaintenance(maintenance);
         redirectAttributes.addFlashAttribute("message", "Maintenance created successfully!");
+
+        // Create notification message
+        // should display the vehicle vehicleLicensePlate, model and brand information
+        String notificationMessage = "Maintenance request for " + vehicle.getVehicleLicensePlate() + " "
+                + vehicle.getVehicleBrand() + " " + vehicle.getVehicleModel();
+        String notificationTitle = "Vehicle Maintenance Request";
+        String notificationType = "Maintenance";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/maintenance/viewCartoMaintenance";
     }
 
@@ -98,6 +111,7 @@ public class MaintenanceController {
         if (maintenance.getMaintenanceStatus().equalsIgnoreCase("Complete")) {
             Vehicle vehicle = vehicleServices.getVehicle(maintenance.getVehicleID().getVehicleID());
             vehicle.setVehicleStatus("Available");
+            vehicle.setVehicleMileage(maintenance.getMaintenanceMileeageDuring());
             vehicleServices.updateVehicle(vehicle);
         } else {
             Vehicle vehicle = vehicleServices.getVehicle(maintenance.getVehicleID().getVehicleID());
@@ -105,6 +119,17 @@ public class MaintenanceController {
             vehicleServices.updateVehicle(vehicle);
         }
         redirectAttributes.addFlashAttribute("message", "Maintenance updated successfully!");
+
+        // Create notification message
+        String notificationMessage = "Maintenance request for " + maintenance.getVehicleID().getVehicleLicensePlate()
+                + " " + maintenance.getVehicleID().getVehicleBrand() + " "
+                + maintenance.getVehicleID().getVehicleModel() + " has been updated";
+        String notificationTitle = "Vehicle Maintenance Request";
+        String notificationType = "Maintenance";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/maintenance/manageMaintenance";
     }
 

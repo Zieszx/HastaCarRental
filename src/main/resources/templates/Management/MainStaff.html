@@ -46,6 +46,7 @@
                                             <th>Staff Phone</th>
                                             <th>Staff Email</th>
                                             <th>Staff Username</th>
+                                            <th>Staff Image</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -58,9 +59,11 @@
                                             <td th:text="${staff.staffEmail}"></td>
                                             <td th:text="${staff.staffUsername}"></td>
                                             <td>
-                                                <a th:href="@{/management/updateStaff(staffID=${staff.staffID})}" class="btn btn-warning">Edit</a>
-                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${staff.staffID}" data-args="/management/deleteStaff?staffID=">Delete</a>
-                                            </td>
+                                                <img th:src="@{/staff/displayStaffImage(staffID=${staff.staffID})}" alt="Staff" width="150">
+                                                <td>
+                                                    <a th:href="@{/management/updateStaff(staffID=${staff.staffID})}" class="btn btn-warning">Edit</a>
+                                                    <a class="btn btn-danger delete-btn" th:data-delete-id="${staff.staffID}" data-args="/management/deleteStaff?staffID=">Delete</a>
+                                                </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -70,6 +73,7 @@
                                             <th>Staff Phone</th>
                                             <th>Staff Email</th>
                                             <th>Staff Username</th>
+                                            <th>Staff Image</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>

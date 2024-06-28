@@ -28,7 +28,7 @@
                         <h5 class="card-title fw-semibold mb-4">Add New Staff</h5>
                         <div class="card">
                             <div class="card-body">
-                                <form th:object="${staff}" th:action="@{/management/addStaff}" id="registerform" class="needs-validation" novalidate>
+                                <form th:object="${staff}" th:action="@{/management/addStaff}" id="registerform" class="needs-validation" enctype="multipart/form-data" method="post" novalidate>
                                     <div class="mb-3">
                                         <label for="staffName" class="form-label">Staff Name</label>
                                         <input type="text" class="form-control" id="staffName" th:field="*{staffName}" required>
@@ -64,6 +64,14 @@
                                             Please provide a valid phone number.
                                         </div>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="staffImage" class="form-label">Staff Image</label>
+                                        <input type="file" class="form-control form-control-file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required>
+                                        <div class="invalid-feedback">
+                                            Please select a valid image file (JPEG or PNG).
+                                        </div>
+                                    </div>
                                     <button type="submit" class="btn btn-customs confirm-btn" data-args="/management/addStaff">Submit</button>
                                 </form>
                             </div>
@@ -76,46 +84,7 @@
 
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
-
-
-    <!-- Sweet alert script -->
-    <script>
-        $(document).ready(function() {
-            // Select the form element
-            var form = $('form.needs-validation');
-
-            // Submit event listener
-            form.on('submit', function(event) {
-                event.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: form.attr('action'), // Get the action URL from the form
-                    data: form.serialize(), // Serialize form data
-                    success: function(response) {
-                        // Show SweetAlert success message
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'New staff details created and saved successfully.',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(function() {
-                            // Redirect to the desired page
-                            window.location.href = '/management/staffs';
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        // Show SweetAlert error message
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'An error occurred while saving staff details.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+    <script th:src="@{/js/Form-validation-customs.js}"></script>
 
 </body>
 

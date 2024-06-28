@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="maintenanceMileeageDuring">Mileage During Maintenance:</label>
-                                            <input type="number" id="maintenanceMileeageDuring" th:field="*{maintenanceMileeageDuring}" class="form-control" required>
+                                            <input type="number" id="maintenanceMileeageDuring" th:field="*{maintenanceMileeageDuring}" th:value="${vehicle.vehicleMileage}" class="form-control" required>
                                             <div class="invalid-feedback">
                                                 Please provide a valid mileage.
                                             </div>

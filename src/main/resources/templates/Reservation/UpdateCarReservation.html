@@ -26,21 +26,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title fw-semibold mb-4">Update Car Reservation Status</h5>
-                        <div class="row">
+                        <!-- Buttons are only shown if the reservation is not Cancelled or Returned -->
+                        <div class="row" th:if="${reservation.reservationStatus != 'Cancelled' and reservation.reservationStatus != 'Returned'}">
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-primary confirm-reservation-btn" th:data-reservationid="${reservation.reservationID}">Confirm Reservation</button>
+                                <!-- Confirm Reservation Button: enabled only if status is 'Booked' -->
+                                <button type="button" class="btn btn-primary confirm-reservation-btn" th:data-reservationid="${reservation.reservationID}" th:disabled="${reservation.reservationStatus != 'Booked'}">Confirm Reservation</button>
                             </div>
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-primary additional-payment-btn" th:data-reservationid="${reservation.reservationID}">Additional Payment</button>
+                                <!-- Cancel Reservation Button: enabled only if status is 'Booked' -->
+                                <button type="button" class="btn btn-danger cancel-reservation-btn" th:data-reservationid="${reservation.reservationID}" th:disabled="${reservation.reservationStatus != 'Booked'}">Cancel Reservation</button>
                             </div>
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-danger cancel-reservation-btn" th:data-reservationid="${reservation.reservationID}">Cancel Reservation</button>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-info return-reservation-btn" th:data-reservationid="${reservation.reservationID}">Return Car</button>
+                                <!-- Return Car Button: enabled only if status is 'Confirmed' -->
+                                <button type="button" class="btn btn-info return-reservation-btn" th:data-reservationid="${reservation.reservationID}" th:disabled="${reservation.reservationStatus != 'Confirmed'}">Return Car</button>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="card-body">
                         <div class="row">
@@ -261,55 +263,6 @@
                 });
             }
 
-            function additionalPayment(reservationID) {
-                swalWithBootstrapButtons.fire({
-                    title: 'Additional Payment',
-                    html: `
-                        <form id="additionalPaymentForm" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="reservationID" value=${reservationID}>
-                            <div class="mb-3">
-                                <label for="additionalAmount">Additional Amount:</label>
-                                <input type="number" id="additionalAmount" name="paymentAmount" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="paymentDescriptions">Description (Why?):</label>
-                                <input type="text" id="paymentDescriptions" name="paymentDescriptions" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="additionalImage">Additional Image:</label>
-                                <input type="file" class="form-control" id="additionalImage" name="additionalImage" accept=".jpg, .jpeg, .png" required>
-                            </div>
-                        </form>`,
-                    showCancelButton: true,
-                    confirmButtonText: 'Add Payment',
-                    preConfirm: () => {
-                        const formData = new FormData($('#additionalPaymentForm')[0]);
-                        formData.append('reservationID', reservationID); // Append reservation ID to form data
-                        return $.ajax({
-                            url: '/reservation/additionalpayment',
-                            type: 'POST',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            success: function(response) {
-                                swalWithBootstrapButtons.fire({
-                                    title: 'Additional Payment Added!',
-                                    text: '',
-                                    icon: 'success'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "/reservation/manageReservation";
-                                    }
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                swalWithBootstrapButtons.fire('Error', `Request failed: ${error}`, 'error');
-                            }
-                        });
-                    }
-                });
-            }
-
             function cancelReservation(reservationID) {
                 swalWithBootstrapButtons.fire({
                     title: 'Cancel Reservation',
@@ -356,6 +309,18 @@
                     html: `
                         <form id="returnCarReservation" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="reservationID" value=${reservationID}>
+                            <div class="mb-3">
+                                <label for="additionalAmount">Additional Amount:</label>
+                                <input type="number" id="additionalAmount" name="paymentAmount" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="paymentDescriptions">Description (Why?):</label>
+                                <input type="text" id="paymentDescriptions" name="paymentDescriptions" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="additionalImage">Additional Image:</label>
+                                <input type="file" class="form-control" id="additionalImage" name="additionalImage" accept=".jpg, .jpeg, .png" required>
+                            </div>
                         </form>`,
                     showCancelButton: true,
                     confirmButtonText: 'Return Car Reservation',

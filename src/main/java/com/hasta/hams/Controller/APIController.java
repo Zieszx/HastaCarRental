@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.*;
-import com.hasta.hams.Service.*;
+import com.hasta.hams.model.*;
+import com.hasta.hams.service.*;
 
 import java.sql.Date;
 
@@ -78,8 +78,7 @@ public class APIController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "sort", required = false) String sort,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
 
         List<Vehicle> vehicles = vehicleServices.getAllVehicles();
 
@@ -92,14 +91,13 @@ public class APIController {
                 .collect(Collectors.toList());
 
         // Filter vehicles based on date availability
-        if (startDate != null && endDate != null) {
+        if (startDate != null) {
             List<Reservation> reservations = reservationServices.getAllReservations();
 
             filteredVehicles = filteredVehicles.stream()
                     .filter(vehicle -> reservations.stream().noneMatch(reservation -> reservation.getVehicleID()
                             .equals(vehicle) &&
-                            !(convertToLocalDate(reservation.getReservationEndDate()).isBefore(startDate)
-                                    || convertToLocalDate(reservation.getReservationStartDate()).isAfter(endDate))))
+                            !(convertToLocalDate(reservation.getReservationEndDate()).isBefore(startDate))))
                     .collect(Collectors.toList());
         }
 

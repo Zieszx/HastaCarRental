@@ -1,10 +1,10 @@
-package com.hasta.hams.Service;
+package com.hasta.hams.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hasta.hams.Model.Vehicle;
-import com.hasta.hams.Repository.VehicleRepository;
+import com.hasta.hams.model.Vehicle;
+import com.hasta.hams.repository.VehicleRepository;
 
 import java.util.List;
 import java.util.ArrayList;

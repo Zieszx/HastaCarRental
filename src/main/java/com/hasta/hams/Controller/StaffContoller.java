@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,10 +15,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.Customer;
-import com.hasta.hams.Model.Staff;
-import com.hasta.hams.Service.StaffServices;
-import com.hasta.hams.Service.CustomerServices;
+import com.hasta.hams.model.Customer;
+import com.hasta.hams.model.Staff;
+import com.hasta.hams.model.Vehicle;
+import com.hasta.hams.service.CustomerServices;
+import com.hasta.hams.service.StaffServices;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -38,6 +39,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class StaffContoller {
 
     private StaffServices staffServices;
+    private ImageController imageController;
 
     @GetMapping("/management/staffs")
     public String staffs(Model model, HttpSession session) {
@@ -59,10 +61,12 @@ public class StaffContoller {
     }
 
     @PostMapping("/management/addStaff")
-    public String addStaff(@ModelAttribute Staff staff, Model model, HttpSession session) {
+    public String addStaff(@ModelAttribute Staff staff, @RequestParam("imageFile") MultipartFile imageFile,
+            Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
+        staff.setStaffImage(imageController.setimageinDB(imageFile));
         staffServices.addStaff(staff);
 
         return "redirect:/management/staffs";
@@ -79,10 +83,18 @@ public class StaffContoller {
     }
 
     @PostMapping("/management/updateStaff")
-    public String updateStaff(@ModelAttribute Staff staff, @RequestParam("staffPassword") String password, Model model,
+    public String updateStaff(@ModelAttribute Staff staff, @RequestParam("staffPassword") String password,
+            @RequestParam("imageFile") MultipartFile imageFile, Model model,
             HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
+
+        if (imageFile != null && !imageFile.isEmpty() && StringUtils.hasText(imageFile.getOriginalFilename()))
+            staff.setStaffImage(imageController.setimageinDB(imageFile));
+        else {
+            Staff temp = staffServices.getStaff(staff.getStaffID());
+            staff.setStaffImage(temp.getStaffImage());
+        }
 
         Staff temp = staffServices.getStaff(staff.getStaffID());
         if (password.equals(""))

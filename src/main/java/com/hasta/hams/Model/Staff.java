@@ -1,4 +1,8 @@
-package com.hasta.hams.Model;
+package com.hasta.hams.model;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,5 +34,12 @@ public class Staff {
 
     @Column(name = "staffPhone")
     private String staffPhone;
+
+    @Column(name = "staffImage", columnDefinition = "MEDIUMBLOB")
+    @JsonIgnore
+    private byte[] staffImage;
+
+    @Transient
+    private MultipartFile staffImageFile;
 
 }

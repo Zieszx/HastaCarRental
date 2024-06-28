@@ -1,10 +1,10 @@
-package com.hasta.hams.Service;
+package com.hasta.hams.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hasta.hams.Model.Payment;
-import com.hasta.hams.Repository.PaymentRepository;
+import com.hasta.hams.model.Payment;
+import com.hasta.hams.repository.PaymentRepository;
 
 import java.util.List;
 import java.util.ArrayList;

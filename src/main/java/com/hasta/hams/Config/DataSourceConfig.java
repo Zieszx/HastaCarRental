@@ -1,4 +1,4 @@
-package com.hasta.hams.Config;
+package com.hasta.hams.config;
 
 import java.util.Properties;
 

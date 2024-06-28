@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 maintenanceMileeageDuring: item.maintenanceMileeageDuring,
                                 maintenanceStatus: item.maintenanceStatus
                             },
-                            color: '#097969', // Color for maintenance events
+                            color: '#CC5500', // Color for maintenance events
                             textColor: 'white' // Text color for maintenance events
                         };
                     });
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         reservationStatus: item.reservationStatus,
                                         reservationReasonDeleted: item.reservationReasonDeleted
                                     },
-                                    color: '#CC5500', // Color for reservation events
+                                    color: '#097969', // Color for reservation events
                                     textColor: 'white' // Text color for reservation events
                                 };
                             });

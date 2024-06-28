@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.*;
-import com.hasta.hams.Service.*;
+import com.hasta.hams.model.*;
+import com.hasta.hams.service.*;
 
 import java.sql.Date;
 
@@ -40,6 +40,7 @@ public class ReservationController {
     private final StaffServices staffServices;
 
     private ImageController imageController;
+    private NotificationController notificationController;
 
     @GetMapping("/viewCars")
     public String viewCars(Model model, HttpSession session) {
@@ -143,6 +144,15 @@ public class ReservationController {
         // Save the reservation data
         reservationService.addReservation(reservation);
 
+        // create nofication message for specified vehicle
+        String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
+                + vehicle.getVehicleModel() + " " + vehicle.getVehicleLicensePlate();
+        String notificationTitle = "New Reservation";
+        String notificationType = "Reservation";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/reservation/viewCars";
     }
 
@@ -192,6 +202,15 @@ public class ReservationController {
 
         // Save the reservation data
         reservationService.addReservation(reservation);
+
+        // create nofication message for specified vehicle
+        String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
+                + vehicle.getVehicleModel() + " " + vehicle.getVehicleLicensePlate();
+        String notificationTitle = "New Reservation";
+        String notificationType = "Reservation";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
 
         return "redirect:/reservation/viewCars";
     }
@@ -254,6 +273,17 @@ public class ReservationController {
 
         reservationService.updateReservation(reservation);
 
+        // create nofication message for specified vehicle`
+        String notificationMessage = "Reservation has been updated for vehicle: "
+                + reservation.getVehicleID().getVehicleBrand() + " " + reservation.getVehicleID().getVehicleModel()
+                + " "
+                + reservation.getVehicleID().getVehicleLicensePlate();
+        String notificationTitle = "Reservation Updated";
+        String notificationType = "Reservation";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/reservation/manageReservation";
     }
 
@@ -277,27 +307,18 @@ public class ReservationController {
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Error updating reservation: " + e.getMessage());
         }
-        return "redirect:/reservation/manageReservation";
-    }
 
-    @PostMapping("/additionalpayment")
-    public String addAdditionalPayment(@RequestParam("reservationID") int reservationID,
-            @RequestParam("paymentAmount") double paymentAmount,
-            @RequestParam("paymentDescriptions") String paymentDescriptions,
-            @RequestParam("additionalImage") MultipartFile additionalImage,
-            RedirectAttributes redirectAttributes) {
+        // create nofication message for specified vehicle
+        String notificationMessage = "Reservation has been confirmed for vehicle: "
+                + reservation.getVehicleID().getVehicleBrand() + " " + reservation.getVehicleID().getVehicleModel()
+                + " "
+                + reservation.getVehicleID().getVehicleLicensePlate();
+        String notificationTitle = "Reservation Confirmed";
+        String notificationType = "Reservation";
 
-        Reservation reservation = reservationService.getReservation(reservationID);
-        Payment payment = paymentService.getPayment(reservation.getPaymentID().getPaymentId());
-        payment.setPaymentAddtional(paymentAmount);
-        payment.setPaymentDescriptions(paymentDescriptions);
-        payment.setPaymentAdditionalimage(imageController.setimageinDB(additionalImage));
-        try {
-            reservationService.updateReservationStatus(reservation);
-            redirectAttributes.addFlashAttribute("success", "Additional payment added successfully.");
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("error", "Error adding additional payment: " + e.getMessage());
-        }
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/reservation/manageReservation";
     }
 
@@ -314,17 +335,48 @@ public class ReservationController {
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Error cancelling reservation: " + e.getMessage());
         }
+
+        // create nofication message for specified vehicle
+        String notificationMessage = "Reservation has been cancelled for vehicle: "
+                + reservation.getVehicleID().getVehicleBrand() + " " + reservation.getVehicleID().getVehicleModel()
+                + " "
+                + reservation.getVehicleID().getVehicleLicensePlate();
+        String notificationTitle = "Reservation Cancelled";
+        String notificationType = "Reservation";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
         return "redirect:/reservation/manageReservation";
     }
 
     @PostMapping("/returncar")
     public String returnCar(@RequestParam("reservationID") int reservationID,
+            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentDescriptions") String paymentDescriptions,
+            @RequestParam("additionalImage") MultipartFile additionalImage,
             RedirectAttributes redirectAttributes) {
 
         Reservation reservation = reservationService.getReservation(reservationID);
         Vehicle vehicle = vehicleService.getVehicle(reservation.getVehicleID().getVehicleID());
         Payment payment = paymentService.getPayment(reservation.getPaymentID().getPaymentId());
-        payment.setPaymentStatus("Returned");
+
+        payment.setPaymentAddtional(paymentAmount);
+        payment.setPaymentDescriptions(paymentDescriptions);
+
+        if (additionalImage != null && !additionalImage.isEmpty()
+                && StringUtils.hasText(additionalImage.getOriginalFilename())) {
+            payment.setPaymentAdditionalimage(imageController.setimageinDB(additionalImage));
+        }
+
+        try {
+            reservationService.updateReservationStatus(reservation);
+            redirectAttributes.addFlashAttribute("success", "Additional payment added successfully.");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Error adding additional payment: " + e.getMessage());
+        }
+
+        payment.setPaymentStatus("Successful Payment");
         paymentService.savePayment(payment);
 
         vehicle.setVehicleStatus("Available");
@@ -333,6 +385,19 @@ public class ReservationController {
         reservation.setReservationStatus("Returned");
         reservation.setReservationReasonDeleted("Null");
         reservationService.updateReservation(reservation);
+
+        redirectAttributes.addFlashAttribute("success", "Vehicle returned successfully.");
+
+        // create nofication message for specified vehicle
+        String notificationMessage = "Vehicle has been returned for vehicle: "
+                + reservation.getVehicleID().getVehicleBrand() + " " + reservation.getVehicleID().getVehicleModel()
+                + " "
+                + reservation.getVehicleID().getVehicleLicensePlate();
+        String notificationTitle = "Vehicle Returned";
+        String notificationType = "Reservation";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
 
         return "redirect:/reservation/manageReservation";
     }

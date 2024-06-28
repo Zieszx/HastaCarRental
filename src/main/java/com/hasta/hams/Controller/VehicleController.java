@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import com.hasta.hams.Model.Vehicle;
-import com.hasta.hams.Service.VehicleServices;
+import com.hasta.hams.model.Vehicle;
+import com.hasta.hams.service.VehicleServices;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +37,7 @@ public class VehicleController {
 
     private VehicleServices vehicleServices;
     private ImageController imageController;
+    private NotificationController notificationController;
 
     @GetMapping("/management/vehicles")
     public String vehicles(Model model, HttpSession session) {
@@ -66,7 +67,16 @@ public class VehicleController {
         vehicle.setVehicleImage(imageController.setimageinDB(imageFile));
         vehicleServices.addVehicle(vehicle);
 
-        return "redirect:/management/addVehicle";
+        // Create a notification message for the new vehicle
+        String notificationMessage = "New vehicle added: " + vehicle.getVehicleBrand() + " " + vehicle.getVehicleModel()
+                + " " + vehicle.getVehicleLicensePlate();
+        String notificationTitle = "Vehicle Registration";
+        String notificationType = "Vehicle";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
+
+        return "redirect:/management/vehicles";
     }
 
     @GetMapping("/management/updateVehicle")
@@ -92,6 +102,15 @@ public class VehicleController {
             vehicle.setVehicleImage(temp.getVehicleImage());
         }
         vehicleServices.updateVehicle(vehicle);
+
+        // Create a notification message for the updated vehicle
+        String notificationMessage = "Vehicle " + vehicle.getVehicleBrand() + " " + vehicle.getVehicleModel() + " "
+                + vehicle.getVehicleLicensePlate() + " has been updated";
+        String notificationTitle = "Vehicle Update";
+        String notificationType = "Vehicle";
+
+        // Create the notification
+        notificationController.createNotification(notificationType, notificationMessage, notificationTitle);
 
         return "redirect:/management/vehicles";
     }

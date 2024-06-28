@@ -11,7 +11,6 @@ $(document).ready(function() {
         var typeVal = $('#typeFilter').val();
         var sortDirection = $('#sortDirection').val();
         var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
 
         $.ajax({
             url: '/reservation/getAllCars',
@@ -22,8 +21,7 @@ $(document).ready(function() {
                 status: statusVal,
                 type: typeVal,
                 sort: sortDirection,
-                startDate: startDate,
-                endDate: endDate
+                startDate: startDate
             },
             success: function(data) {
                 displayCars(data);

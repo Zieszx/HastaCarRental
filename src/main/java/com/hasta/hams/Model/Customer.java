@@ -1,4 +1,4 @@
-package com.hasta.hams.Model;
+package com.hasta.hams.model;
 
 import jakarta.persistence.*;
 import lombok.*;

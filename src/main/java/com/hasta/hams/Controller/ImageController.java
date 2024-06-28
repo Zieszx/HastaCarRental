@@ -1,4 +1,4 @@
-package com.hasta.hams.Controller;
+package com.hasta.hams.controller;
 
 import java.io.IOException;
 
@@ -14,11 +14,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hasta.hams.Model.Payment;
-import com.hasta.hams.Model.Vehicle;
-import com.hasta.hams.Service.PaymentServices;
-import com.hasta.hams.Service.ReservationServices;
-import com.hasta.hams.Service.VehicleServices;
+import com.hasta.hams.model.Payment;
+import com.hasta.hams.model.Staff;
+import com.hasta.hams.model.Vehicle;
+import com.hasta.hams.service.PaymentServices;
+import com.hasta.hams.service.ReservationServices;
+import com.hasta.hams.service.StaffServices;
+import com.hasta.hams.service.VehicleServices;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class ImageController {
     private VehicleServices vehicleServices;
     private PaymentServices paymentServices;
     private ReservationServices reservationServices;
+    private StaffServices staffServices;
 
     public byte[] setimageinDB(MultipartFile tempfile) {
         byte[] imageBytes = null;
@@ -65,6 +68,13 @@ public class ImageController {
             throws IOException {
         Vehicle vehicle = vehicleServices.getVehicle(id);
         byte[] image = vehicle.getVehicleImage();
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new ByteArrayResource(image));
+    }
+
+    @GetMapping("/staff/displayStaffImage")
+    public ResponseEntity<ByteArrayResource> displayStaffImage(@RequestParam("staffID") int id) {
+        Staff staff = staffServices.getStaff(id);
+        byte[] image = staff.getStaffImage();
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new ByteArrayResource(image));
     }
 
