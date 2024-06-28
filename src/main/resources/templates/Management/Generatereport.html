@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Dashboard(main) Page for Hasta Management System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HAMS Dashboard</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4 text-center">Customer Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="customertb" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Phone</th>
+                                        <th>Customer Email</th>
+                                        <th>Customer DLicense</th>
+                                        <th>Customer Role</th>
+                                        <th>Customer Address</th>
+                                        <th>Reservation Has Made</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Your Thymeleaf iteration here -->
+                                    <tr th:each="cust, iterStat : ${customers}">
+                                        <td th:text="${iterStat.count}"></td>
+                                        <td th:text="${cust.custName}"></td>
+                                        <td th:text="${cust.custPhone}"></td>
+                                        <td th:text="${cust.custEmail}"></td>
+                                        <td th:text="${cust.custDLicense}"></td>
+                                        <td th:text="${cust.custRole}"></td>
+                                        <td th:text="${cust.custAddress}"></td>
+                                        <td th:text="${mostCarReservations[iterStat.index]}"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Phone</th>
+                                        <th>Customer Email</th>
+                                        <th>Customer DLicense</th>
+                                        <th>Customer Role</th>
+                                        <th>Customer Address</th>
+                                        <th>Reservation Has Made</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4 text-center">Maintenance Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="maintenancetb" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Vehicle</th>
+                                        <th>Vehicle Image</th>
+                                        <th>Maintenance Description</th>
+                                        <th>Maintenance Mileage</th>
+                                        <th>Maintenance Date</th>
+                                        <th>Maintenance Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Your Thymeleaf iteration here -->
+                                    <tr th:each="maintenance, iterStat : ${maintenances}">
+                                        <td th:text="${iterStat.count}"></td>
+                                        <td th:text="${maintenance.vehicleID.vehicleBrand} +' ' + ${maintenance.vehicleID.vehicleModel}"></td>
+                                        <td>
+                                            <img th:src="@{/vehicle/displayVehicleImage(vehicleID=${maintenance.vehicleID.vehicleID})}" alt="Vehicle" width="150">
+                                        </td>
+                                        <td th:text="${maintenance.maintenanceDesc}"></td>
+                                        <td th:text="${maintenance.maintenanceMileeageDuring}"></td>
+                                        <td th:text="${maintenance.maintenanceDate}"></td>
+                                        <td th:text="${maintenance.maintenanceStatus}"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Vehicle</th>
+                                        <th>Vehicle Image</th>
+                                        <th>Maintenance Description</th>
+                                        <th>Maintenance Mileage</th>
+                                        <th>Maintenance Date</th>
+                                        <th>Maintenance Status</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4 text-center">Vehicle Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="vehicletb" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Vehicle Model</th>
+                                        <th>Vehicle Brand</th>
+                                        <th>Vehicle Type</th>
+                                        <th>Vehicle License Plate</th>
+                                        <th>Vehicle Fuel Bar</th>
+                                        <th>Vehicle Mileage</th>
+                                        <th>Vehicle Image</th>
+                                        <th>Vehicle Status</th>
+                                        <th>Reserved Has Made</th>
+                                        <th>Maintenance Has Made</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Your Thymeleaf iteration here -->
+                                    <tr th:each="vehicle, iterStat : ${vehicles}">
+                                        <td th:text="${iterStat.count}"></td>
+                                        <td th:text="${vehicle.vehicleModel}"></td>
+                                        <td th:text="${vehicle.vehicleBrand}"></td>
+                                        <td th:text="${vehicle.vehicleType}"></td>
+                                        <td th:text="${vehicle.vehicleLicensePlate}"></td>
+                                        <td th:text="${vehicle.vehicleFuelbar}"></td>
+                                        <td th:text="${vehicle.vehicleMileage}"></td>
+                                        <td>
+                                            <img th:src="@{/vehicle/displayVehicleImage(vehicleID=${vehicle.vehicleID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.vehicleModel}" />
+                                        </td>
+                                        <td th:text="${vehicle.vehicleStatus}"></td>
+                                        <td th:text="${vehicleReservationAndMaintenanceIntegers[iterStat.index][0]}"></td>
+                                        <td th:text="${vehicleReservationAndMaintenanceIntegers[iterStat.index][1]}"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Vehicle Model</th>
+                                        <th>Vehicle Brand</th>
+                                        <th>Vehicle Type</th>
+                                        <th>Vehicle License Plate</th>
+                                        <th>Vehicle Fuel Bar</th>
+                                        <th>Vehicle Mileage</th>
+                                        <th>Vehicle Image</th>
+                                        <th>Vehicle Status</th>
+                                        <th>Reserved Has Made</th>
+                                        <th>Maintenance Has Made</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4 text-center">Staff Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="stafftb" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Staff Name</th>
+                                        <th>Staff Phone</th>
+                                        <th>Staff Email</th>
+                                        <th>Staff Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Your Thymeleaf iteration here -->
+                                    <tr th:each="staff, iterStat : ${staffs}">
+                                        <td th:text="${iterStat.count}"></td>
+                                        <td th:text="${staff.staffName}"></td>
+                                        <td th:text="${staff.staffPhone}"></td>
+                                        <td th:text="${staff.staffEmail}"></td>
+                                        <td th:text="${staff.staffUsername}"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Staff Name</th>
+                                        <th>Staff Phone</th>
+                                        <th>Staff Email</th>
+                                        <th>Staff Username</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+    <script th:src="@{/js/generateReport.js}"></script>
+
+</body>
+
+</html>

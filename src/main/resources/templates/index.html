@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Login Page for Hasta Management System">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login HAMS</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/index.css}" rel="stylesheet">
+    <script th:src="@{/js/index.js}"></script>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form method="post" th:action="@{/login}" id="loginForm">
+                <h1>Sign In</h1>
+                <span>Please sign in use staff credential</span>
+                <input type="text" name="Username" placeholder="Username" />
+                <input type="password" name="Password" placeholder="Password" />
+                <a th:href="@{/forgotpassword}">Forgot your password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1><img th:src="@{/img/index/hasta.jpeg}" alt="HASTA Logo" class="img-fluid"> </h1>
+                    <p>HAMS | HASTA Management System</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Created with <i class="ti ti-heart"></i> by HASTA Car Rental
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Vehicle management page for HAMS to view and manage all vehicle data">
+    <meta name="keywords" content="HAMS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vehicle Management</title>
+    <link th:href="@{/img/index/hasta.jpeg}" rel="shortcut icon">
+    <div th:replace="~{fragments/pluginfile :: pluginfile}"></div>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <aside th:replace="~{fragments/Navbar :: Navbar}"></aside>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header th:replace="~{fragments/HeaderBar :: HeaderBar}"></header>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title fw-semibold mb-4">Vehicle Management</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-5">
+                                <a th:href="@{/management/addVehicle}">
+                                    <button type="button" class="btn btn-rounded btn-info">
+                                    <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                    Add new Vehicle
+                                </button>
+                                </a>
+                            </div>
+                            <div>
+                                <table id="vehicletb" class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Vehicle Model</th>
+                                            <th>Vehicle Brand</th>
+                                            <th>Vehicle Type</th>
+                                            <th>Vehicle License Plate</th>
+                                            <th>Vehicle Fuel Bar</th>
+                                            <th>Vehicle Mileage</th>
+                                            <th>Vehicle Image</th>
+                                            <th>Vehicle Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Your Thymeleaf iteration here -->
+                                        <tr th:each="vehicle, iterStat : ${vehicles}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${vehicle.vehicleModel}"></td>
+                                            <td th:text="${vehicle.vehicleBrand}"></td>
+                                            <td th:text="${vehicle.vehicleType}"></td>
+                                            <td th:text="${vehicle.vehicleLicensePlate}"></td>
+                                            <td th:text="${vehicle.vehicleFuelbar}"></td>
+                                            <td th:text="${vehicle.vehicleMileage}"></td>
+                                            <td>
+                                                <img th:src="@{/vehicle/displayVehicleImage(vehicleID=${vehicle.vehicleID})}" class="img-fluid img-thumbnail img-admin" th:alt="${vehicle.vehicleModel}" />
+                                            </td>
+                                            <td th:text="${vehicle.vehicleStatus}"></td>
+                                            <td>
+                                                <a th:href="@{/management/updateVehicle(vehicleID=${vehicle.vehicleID})}" class="btn btn-warning">Edit</a>
+                                                <a class="btn btn-danger delete-btn" th:data-delete-id="${vehicle.vehicleID}" data-args="/management/deleteVehicle?vehicleID=">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Vehicle Model</th>
+                                            <th>Vehicle Brand</th>
+                                            <th>Vehicle Type</th>
+                                            <th>Vehicle License Plate</th>
+                                            <th>Vehicle Fuel Bar</th>
+                                            <th>Vehicle Mileage</th>
+                                            <th>Vehicle Image</th>
+                                            <th>Vehicle Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/sidebarmenu.js}"></script>
+    <script th:src="@{/js/app.min.js}"></script>
+
+    <script th:src="@{/js/sweetalert-delete.js}"></script>
+    <script>
+        var vehicleTable = $('#vehicletb').DataTable({
+            deferRender: true,
+            scrollCollapse: true,
+            fixedColumns: true,
+            paging: false,
+
+            dom: 'Bfrtip',
+            responsive: true,
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            buttons: [
+                'excel',
+                'pdf'
+            ]
+        });
+
+        vehicleTable.on('click', 'tbody tr', function() {
+            var $row = vehicleTable.row(this).nodes().to$();
+            var hasClass = $row.hasClass('selected');
+            if (hasClass) {
+                $row.removeClass('selected')
+            } else {
+                $row.addClass('selected')
+            }
+        })
+
+        vehicleTable.rows().every(function() {
+            this.nodes().to$().removeClass('selected')
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+div.mb-3 div.img-vehicle img.img-vehicle {
+    width: auto;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}

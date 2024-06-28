@@ -1,0 +1,110 @@
+<aside th:fragment="Navbar" class="left-sidebar">
+    <!-- Sidebar Start -->
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar" data-simplebar>
+        <div class="d-flex mb-4 align-items-center justify-content-between">
+            <a th:href="@{/}" class="text-nowrap logo-img ms-0 ms-md-1">
+                <img th:src="@{/img/index/Logo.png}" width="125" alt="">
+            </a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                <i class="ti ti-x fs-8"></i>
+            </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav" class="mb-4 pb-2">
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-5"></i><span class="hide-menu">Home</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/dashboard}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-home fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/home/registercustomer}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-user-plus fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Register a customer</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
+                    <span class="hide-menu">Car Reservation</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/reservation/viewCars}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-car fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">View Car and Reserved</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/reservation/viewCars/exactDate}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-business-time fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Reserve a Car (Today)</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/reservation/manageReservation}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-calendar-check fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Manage Car Reservation</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
+                    <span class="hide-menu">Car Maintenance</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/maintenance/viewCartoMaintenance}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-tools fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Create New Maintenance</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/maintenance/viewAllMaintenance}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-wrench fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">View All Maintenance</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/maintenance/manageMaintenance}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-cogs fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Manage Car Maintenance</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-5"></i>
+                    <span class="hide-menu">Report and Management</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/report/generatereport}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-chart-pie fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Generate Report</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/management/customers}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-users fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Customer</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/management/staffs}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-users-cog fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Staff</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link sidebar-link primary-hover-bg" th:href="@{/management/vehicles}" aria-expanded="false">
+                        <span class="aside-icon p-2 bg-light-primary rounded-3"><i class="fas fa-car-side fs-7 text-primary"></i></span>
+                        <span class="hide-menu ms-2 ps-1">Vehicle</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+<!--  Sidebar End -->
