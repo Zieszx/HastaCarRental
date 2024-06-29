@@ -80,7 +80,7 @@ public class IndexController {
             return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Invalid Username or Password");
-            return "redirect:/";
+            return "index";
         }
     }
 

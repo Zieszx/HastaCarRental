@@ -136,6 +136,7 @@ public class MaintenanceController {
     @GetMapping("/deleteMaintenance")
     public String deleteMaintenance(@RequestParam("maintenanceID") int maintenanceID,
             RedirectAttributes redirectAttributes) {
+        vehicleServices.getVehicle(maintenanceID).setVehicleStatus("Available");
         maintenanceServices.deleteMaintenance(maintenanceID);
         redirectAttributes.addFlashAttribute("message", "Maintenance deleted successfully!");
         return "redirect:/maintenance/manageMaintenance";

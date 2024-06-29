@@ -123,7 +123,7 @@
                                     <input type="hidden" name="custID" th:field="*{customerID.custID}">
                                     <input type="hidden" name="paymentID" th:field="*{paymentID.paymentId}">
                                     <input type="hidden" name="reservationStatus" th:field="*{reservationStatus}">
-                                    <button type="submit" class="btn btn-primary">Update Reservation Details</button>
+                                    <button type="submit" class="btn btn-primary" th:if="*{reservationStatus} != 'Returned' and *{reservationStatus} != 'Cancelled'">Update Reservation Details</button>
                                 </form>
                             </div>
                             <div class="col-md-4 border-start">

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hasta.hams.model.Maintenance;
+import com.hasta.hams.model.Vehicle;
 import com.hasta.hams.repository.MaintenanceRepository;
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class MaintenanceServices {
 
     public void deleteMaintenance(int maintenanceId) {
         maintenanceRepository.deleteById(maintenanceId);
+    }
+
+    public List<Maintenance> getMaintenanceByVehicle(Vehicle vehicle) {
+        return maintenanceRepository.findByVehicleID(vehicle);
     }
 
 }

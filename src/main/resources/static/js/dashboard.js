@@ -73,20 +73,20 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 // Filter reservations where status is 'Returned'
-                var returnedReservations = data.filter(function(reservation) {
+                const returnedReservations = data.filter(function(reservation) {
                     return reservation.reservationStatus === 'Returned';
                 });
 
                 // Initialize an array to store monthly profits
-                var monthlyProfits = Array(12).fill(0);
+                const monthlyProfits = Array(12).fill(0);
 
                 // Calculate profit for each month based on returned reservations
                 returnedReservations.forEach(function(reservation) {
-                    var reservationStartDate = new Date(reservation.reservationStartDate);
-                    var monthIndex = reservationStartDate.getMonth();
+                    const reservationStartDate = new Date(reservation.reservationStartDate);
+                    const monthIndex = reservationStartDate.getMonth();
                     console.log(monthIndex);
-                    // Example calculation: Profit based on payment amount (adjust as per your logic)
-                    var profit = calculateReservationProfit(reservation);
+                    // Profit based on payment amount and the status is 'Returned'
+                    let profit = calculateReservationProfit(reservation);
                     monthlyProfits[monthIndex] += profit;
                 });
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
                 profitReservation.series[0].data = monthlyProfits;
 
                 // Render the chart
-                var chart = new ApexCharts($("#profitReservation")[0], profitReservation);
+                const chart = new ApexCharts($("#profitReservation")[0], profitReservation);
                 chart.render();
             },
             error: function(error) {
@@ -240,7 +240,7 @@ $(document).ready(function() {
                 // Calculate total profits
                 data.forEach(function(reservation) {
                     // Assuming profit is derived from payment amount, adjust this based on your data structure
-                    if (reservation.paymentID && reservation.paymentID.paymentAmount) {
+                    if (reservation.paymentID && reservation.paymentID.paymentAmount && reservation.reservationStatus === 'Returned') {
                         totalProfits += reservation.paymentID.paymentAmount;
                     }
                 });

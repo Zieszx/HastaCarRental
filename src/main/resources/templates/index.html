@@ -24,7 +24,8 @@
                 <input type="text" name="Username" placeholder="Username" />
                 <input type="password" name="Password" placeholder="Password" />
                 <a th:href="@{/forgotpassword}">Forgot your password?</a>
-                <button>Sign In</button>
+                <button type="submit">Sign In</button>
+                <div th:if="${error} != null" th:text="${error}" class="text-danger">Hello</div>
             </form>
         </div>
         <div class="overlay-container">
