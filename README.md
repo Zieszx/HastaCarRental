@@ -20,7 +20,7 @@ The HASTA Car Rental Application is a web-based application designed to manage c
 ## Prerequisites
 Before running the application, make sure you have the following installed:
 - Java 17
-- Maven 3.6+
+- Maven 3.8+
 - MySQL Database
 - Xampp or any other application that enabled port opening for MySQL and Apache
 
