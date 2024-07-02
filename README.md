@@ -22,6 +22,7 @@ Before running the application, make sure you have the following installed:
 - Java 17
 - Maven 3.6+
 - MySQL Database
+- Xampp or any other application that enabled port opening for MySQL and Apache
 
 ## Installation
 To install and set up the application, follow these steps:
@@ -39,11 +40,15 @@ To install and set up the application, follow these steps:
 
 ## Running the Application
 To run the application, follow these steps:
-1. Build the project using Maven:
+1. Open and run port for MySQL and Apache
+   #### Port
+   - MySQL port: 3306
+   - Apache port: 80
+3. Build the project using Maven:
     ```sh
     mvn clean install
     ```
-2. Run the application:
+4. Run the application:
     ```sh
     mvn spring-boot:run
     ```
