@@ -59,7 +59,7 @@ public class NotificationController {
 
         // if the notification size it more than 30, delete the oldest notification
         List<Notification> notifications = notificationServices.getAllNotifications();
-        if (notifications.size() > 15) {
+        if (notifications.size() > 1) {
             notificationServices.deleteNotification(notifications.get(0).getNotificationID());
         }
 

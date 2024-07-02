@@ -58,7 +58,14 @@
                                             <td th:text="${reservation.reservationEndDate}"></td>
                                             <td th:text="${reservation.reservationTime}"></td>
                                             <td th:text="${reservation.reservationHours}"></td>
-                                            <td th:text="${reservation.reservationStatus}"></td>
+                                            <td>
+                                                <span th:if="${reservation.reservationStatus} == 'Cancelled'">
+                                                    <span th:text="${reservation.reservationStatus}"></span>
+                                                <br> Reasons:
+                                                <span th:text="${reservation.reservationReasonDeleted}"></span>
+                                                </span>
+                                                <span th:unless="${reservation.reservationStatus} == 'Cancelled'" th:text="${reservation.reservationStatus}"></span>
+                                            </td>
                                             <td>
                                                 <a th:href="@{/reservation/updatereservation(reservationID=${reservation.reservationID})}" class="btn btn-warning">Edit</a>
                                                 <a class="btn btn-danger delete-btn" th:data-delete-id="${reservation.reservationID}" data-args="/reservation/deletereservation?reservationID=">Delete</a>

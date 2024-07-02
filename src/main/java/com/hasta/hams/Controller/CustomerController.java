@@ -17,8 +17,10 @@ import lombok.NoArgsConstructor;
 
 import com.hasta.hams.model.Customer;
 import com.hasta.hams.model.Notification;
+import com.hasta.hams.model.Reservation;
 import com.hasta.hams.service.CustomerServices;
 import com.hasta.hams.service.NotificationServices;
+import com.hasta.hams.service.ReservationServices;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -38,6 +40,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class CustomerController {
 
     private CustomerServices customerServices;
+    private ReservationServices reservationServices;
     private NotificationController notificationController;
 
     // api for getting all customers from the database
@@ -85,9 +88,22 @@ public class CustomerController {
     }
 
     @GetMapping("/management/deleteCustomer")
-    public String deleteCustomer(@RequestParam("custID") int id, HttpSession session) {
+    public String deleteCustomer(@RequestParam("custID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
+
+        Customer customer = customerServices.getCustomer(id);
+
+        List<Reservation> reservations = reservationServices.getReservationByCustomer(customer);
+
+        for (Reservation reservation : reservations) {
+            // Booked, Confirmed, Returned, Refund, Cancelled
+            if (reservation.getReservationStatus().equals("Booked")
+                    || reservation.getReservationStatus().equals("Confirmed")) {
+                model.addAttribute("message", "Cannot delete customer with active reservations");
+                return "redirect:/management/customers";
+            }
+        }
 
         customerServices.deleteCustomer(id);
 

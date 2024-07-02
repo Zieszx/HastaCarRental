@@ -220,7 +220,17 @@ public class ReservationController {
         if (session.getAttribute("user") == null)
             return "redirect:/";
 
+        LocalDate today = LocalDate.now();
+
         List<Reservation> reservations = reservationService.getAllReservations();
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationEndDate().toLocalDate().isBefore(today)
+                    && reservation.getReservationStatus().equals("Booked")) {
+                reservation.setReservationStatus("Cancelled");
+                reservation.setReservationReasonDeleted("Overdue or Expired reservation");
+                reservationService.updateReservation(reservation);
+            }
+        }
         model.addAttribute("reservations", reservations);
         return "Reservation/ManageCarReservation";
     }

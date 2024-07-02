@@ -27,6 +27,12 @@
                     <div class="card-body">
                         <div class="card-header">
                             <h5 class="card-title fw-semibold mb-4">Vehicle Management</h5>
+                            <div th:if="${message} != null">
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong th:text="${message}"></strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="mb-5">

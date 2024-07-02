@@ -63,7 +63,7 @@ $(document).ready(function() {
     }
 
     // Event listener for the bell icon click
-    $('.nav-link.nav-icon-hover').click(function(event) {
+    $('.nav-link.nav-icon-hover.notifi-item').click(function(event) {
         event.stopPropagation(); // Prevent the document click event from firing
         fetchNotifications();
     });

@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hasta.hams.model.Customer;
 import com.hasta.hams.model.Payment;
 import com.hasta.hams.model.Reservation;
+import com.hasta.hams.model.Vehicle;
 import com.hasta.hams.repository.PaymentRepository;
 import com.hasta.hams.repository.ReservationRepository;
 
@@ -49,4 +51,12 @@ public class ReservationServices {
         reservationRepository.save(reservation);
     }
 
+    public List<Reservation> getReservationByCustomer(Customer customer) {
+        return reservationRepository.findByCustomerID(customer);
+
+    }
+
+    public List<Reservation> getReservationByVehicle(Vehicle vehicle) {
+        return reservationRepository.findByVehicleID(vehicle);
+    }
 }

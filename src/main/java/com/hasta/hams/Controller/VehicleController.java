@@ -15,7 +15,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import com.hasta.hams.model.Maintenance;
+import com.hasta.hams.model.Reservation;
 import com.hasta.hams.model.Vehicle;
+import com.hasta.hams.service.MaintenanceServices;
+import com.hasta.hams.service.ReservationServices;
 import com.hasta.hams.service.VehicleServices;
 
 import java.awt.image.BufferedImage;
@@ -36,6 +40,8 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class VehicleController {
 
     private VehicleServices vehicleServices;
+    private ReservationServices reservationServices;
+    private MaintenanceServices maintenanceServices;
     private ImageController imageController;
     private NotificationController notificationController;
 
@@ -119,6 +125,26 @@ public class VehicleController {
     public String deleteVehicle(@RequestParam("vehicleID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
             return "redirect:/";
+
+        Vehicle vehicle = vehicleServices.getVehicle(id);
+        List<Reservation> reservations = reservationServices.getReservationByVehicle(vehicle);
+        List<Maintenance> maintenances = maintenanceServices.getMaintenanceByVehicle(vehicle);
+
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationStatus().equals("Booked")
+                    || reservation.getReservationStatus().equals("Confirmed")) {
+                model.addAttribute("message", "Vehicle is currently booked or confirmed. Cannot delete.");
+                return "redirect:/management/vehicles";
+            }
+        }
+
+        for (Maintenance maintenance : maintenances) {
+            if (maintenance.getMaintenanceStatus().equals("Submitted")
+                    || maintenance.getMaintenanceStatus().equals("In Progress")) {
+                model.addAttribute("message", "Vehicle is currently in maintenance. Cannot delete.");
+                return "redirect:/management/vehicles";
+            }
+        }
 
         vehicleServices.deleteVehicle(id);
 

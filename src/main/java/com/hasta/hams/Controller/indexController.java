@@ -41,7 +41,7 @@ public class IndexController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String login(Model model, @RequestParam("Username") String username,
             @RequestParam("Password") String password, HttpSession session) {
 
@@ -65,14 +65,16 @@ public class IndexController {
             }
         }
 
-        for (Staff staff : staffs) {
-            if (staff.getStaffUsername().equals(username) && staff.getStaffPassword().equals(password)) {
-                session.setAttribute("user", "staff");
-                session.setAttribute("staffID", staff.getStaffID());
-                isUserlogged = true;
-                break;
-            } else {
-                isUserlogged = false;
+        if (!isUserlogged) {
+            for (Staff staff : staffs) {
+                if (staff.getStaffUsername().equals(username) && staff.getStaffPassword().equals(password)) {
+                    session.setAttribute("user", "staff");
+                    session.setAttribute("staffID", staff.getStaffID());
+                    isUserlogged = true;
+                    break;
+                } else {
+                    isUserlogged = false;
+                }
             }
         }
 
@@ -80,7 +82,7 @@ public class IndexController {
             return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Invalid Username or Password");
-            return "redirect:/";
+            return "index";
         }
     }
 
