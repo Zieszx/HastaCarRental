@@ -1,6 +1,6 @@
 # HASTA Car Rental Application
 
-HASTA Car Rental Application is a web-based application designed to manage car rental services, including customer registration, reservations, maintenance, and reporting.
+HASTA Car Rental Application is a web-based application designed to manage car rental services, including customer registration, reservations, maintenance, and reporting. A Web application for HASTA Car Rental that enables administrative personnel to administer the maintenance of the HASTA's vehicles and make reservations for specific vehicles.
 
 ## Table of Contents
 - [Features](#features)
