@@ -1,42 +1,102 @@
-## Setup Instructions
+# HASTA Car Rental Application
 
-### Prerequisites
+HASTA Car Rental Application is a web-based application designed to manage car rental services, including customer registration, reservations, maintenance, and reporting.
 
-- Java Development Kit (JDK) version 8 or higher
-- Apache Maven
-- PostgreSQL database installed and running
+## Table of Contents
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Steps to Setup
+## Features
+- Customer Registration
+- Car Reservation
+- Maintenance Management
+- Reporting and Management
 
-1. **Clone the repository**
+## Prerequisites
+- Java 17
+- Maven 3.6+
+- MySQL Database
 
-   ```
-   git clone github.com/Zieszx/coding-exercise
-   cd coding-exercise
-   ```
-   
-2. **Set up PostgreSQL Database**
+## Installation
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/hams.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd hams
+    ```
+3. Configure the MySQL database:
+    - Create a database named `hastacarrental`.
+    - Update the database configuration in `src/main/resources/application.properties`:
+        ```properties
+        spring.datasource.url=jdbc:mysql://localhost/hastacarrental?createDatabaseIfNotExist=true
+        spring.datasource.username=root
+        spring.datasource.password=
+        spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+        spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+        spring.jpa.show-sql=true
+        spring.jpa.hibernate.ddl-auto=update
+        ```
 
-- Create a database named user_registration.
-- Configure database connection settings in application.properties (found in src/main/resources):
+## Running the Application
+1. Build the project using Maven:
+    ```sh
+    mvn clean install
+    ```
+2. Run the application:
+    ```sh
+    mvn spring-boot:run
+    ```
 
-  ```
-  spring.datasource.url=jdbc:postgresql://localhost:5432/user_registration?createDatabaseIfNotExist=true
-  spring.datasource.username=postgres
-  spring.datasource.password=postgres
-  ```
+## Usage
+- Access the application at `http://localhost:8080`.
+- Use the customer registration module to add new customers.
+- Manage car reservations, maintenance, and reporting through the respective modules.
 
-3. **Build and Run the Application**
-   
-   You can run the application using Maven:
-   ```
-   mvn spring-boot:run
-   ```
+## Application Properties
+The project uses the following application properties:
+```properties
+# Application name
+spring.application.name=hams
 
-Alternatively, you can build a JAR file and run it:
-   ```
-   mvn clean package
-   java -jar target/user-registration-0.0.1-SNAPSHOT.jar
-   ```
+# Thymeleaf settings
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.encoding=UTF-8
 
-The application will start and be accessible at http://localhost:8080.
+# Static resources settings
+spring.mvc.static-path-pattern=/**
+spring.web.resources.static-locations=classpath:/static/
+
+# Spring Boot DevTools settings
+spring.devtools.restart.enabled=true
+spring.devtools.livereload.enabled=true
+
+# Database settings
+spring.datasource.url=jdbc:mysql://localhost/hastacarrental?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+# File upload settings
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# MVC settings
+spring.mvc.servlet.path: /
+
+# Error handling settings
+server.error.whitelabel.enabled=false
+server.error.path=/error
+```
