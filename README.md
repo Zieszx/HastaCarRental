@@ -19,6 +19,7 @@ The HASTA Car Rental Application is a web-based application designed to manage c
 
 ## Prerequisites
 Before running the application, make sure you have the following installed:
+
 - Java 17
 - Maven 3.8+
 - MySQL Database
@@ -26,6 +27,7 @@ Before running the application, make sure you have the following installed:
 
 ## Installation
 To install and set up the application, follow these steps:
+
 1. Clone the repository:
     ```sh
     git clone https://github.com/Zieszx/HastaCarRental
@@ -40,6 +42,7 @@ To install and set up the application, follow these steps:
 
 ## Running the Application
 To run the application, follow these steps:
+
 1. Open and run port for MySQL and Apache
    #### Port
    - MySQL port: 3306
@@ -58,6 +61,7 @@ Once the application is running, you can access it at `http://localhost:8080`. U
 
 ## Application Properties
 The project uses the following application properties:
+
 ```properties
 # Application name
 spring.application.name=hams
@@ -79,6 +83,7 @@ spring.servlet.multipart.max-request-size=10MB
 
 ## Dependencies
 The project uses the following dependencies:
+
 - Spring Boot Starter Data JPA
 - Spring Boot Starter Web
 - MySQL Connector/J
