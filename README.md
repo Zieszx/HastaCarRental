@@ -8,8 +8,6 @@ HASTA Car Rental Application is a web-based application designed to manage car r
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - Customer Registration
@@ -100,3 +98,14 @@ spring.mvc.servlet.path: /
 server.error.whitelabel.enabled=false
 server.error.path=/error
 ```
+
+## Dependencies
+### The project uses the following dependencies:
+
+- Spring Boot Starter Data JPA
+- Spring Boot Starter Thymeleaf
+- Spring Boot Starter Web
+- Spring Boot DevTools
+- MySQL Connector/J
+- Lombok
+- Spring Boot Starter Test
