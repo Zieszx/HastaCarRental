@@ -23,11 +23,11 @@ HASTA Car Rental Application is a web-based application designed to manage car r
 ## Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/hams.git
+    git clone https://github.com/Zieszx/HastaCarRental
     ```
 2. Navigate to the project directory:
     ```sh
-    cd hams
+    cd HastaCarRental
     ```
 3. Configure the MySQL database:
     - Create a database named `hastacarrental`.
