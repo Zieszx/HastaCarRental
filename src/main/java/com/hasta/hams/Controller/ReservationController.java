@@ -144,6 +144,9 @@ public class ReservationController {
         // Save the reservation data
         reservationService.addReservation(reservation);
 
+        vehicle.setVehicleStatus("Unavailable");
+        vehicleService.updateVehicle(vehicle);
+
         // create nofication message for specified vehicle
         String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
                 + vehicle.getVehicleModel() + " " + vehicle.getVehicleLicensePlate();
@@ -202,6 +205,8 @@ public class ReservationController {
 
         // Save the reservation data
         reservationService.addReservation(reservation);
+        vehicle.setVehicleStatus("Unavailable");
+        vehicleService.updateVehicle(vehicle);
 
         // create nofication message for specified vehicle
         String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
@@ -414,7 +419,11 @@ public class ReservationController {
 
     @GetMapping("/deletereservation")
     public String deleteReservation(@RequestParam("reservationID") int reservationID,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, Model model) {
+        if (reservationService.getReservation(reservationID).getReservationStatus().equals("Booked")) {
+            model.addAttribute("error", "Cannot delete a reservation that is not confirmed.");
+            return "redirect:/reservation/manageReservation";
+        }
         reservationService.deleteReservation(reservationID);
         redirectAttributes.addFlashAttribute("success", "Reservation deleted successfully.");
         return "redirect:/reservation/manageReservation";
