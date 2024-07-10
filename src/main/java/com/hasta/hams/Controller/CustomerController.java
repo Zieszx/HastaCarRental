@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -88,26 +89,34 @@ public class CustomerController {
     }
 
     @GetMapping("/management/deleteCustomer")
-    public String deleteCustomer(@RequestParam("custID") int id, Model model, HttpSession session) {
-        if (session.getAttribute("user") == null)
-            return "redirect:/";
+    public ResponseEntity<Map<String, String>> deleteCustomer(@RequestParam("custID") int id, HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+        if (session.getAttribute("user") == null) {
+            response.put("status", "error");
+            response.put("message", "User not logged in.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
 
         Customer customer = customerServices.getCustomer(id);
-
         List<Reservation> reservations = reservationServices.getReservationByCustomer(customer);
 
         for (Reservation reservation : reservations) {
-            // Booked, Confirmed, Returned, Refund, Cancelled
-            if (reservation.getReservationStatus().equals("Booked")
-                    || reservation.getReservationStatus().equals("Confirmed")) {
-                model.addAttribute("message", "Cannot delete customer with active reservations");
-                return "redirect:/management/customers";
+            if (reservation.getReservationStatus().equals("Booked") ||
+                    reservation.getReservationStatus().equals("Confirmed")) {
+                response.put("status", "error");
+                response.put("message", "Cannot delete customer with active reservations.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
         }
 
-        customerServices.deleteCustomer(id);
+        for (Reservation reservation : reservations) {
+            reservationServices.deleteReservation(reservation.getReservationID());
+        }
 
-        return "redirect:/management/customers";
+        customerServices.deleteCustomer(id);
+        response.put("status", "success");
+        response.put("message", "Customer deleted successfully.");
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/management/updateCustomer")

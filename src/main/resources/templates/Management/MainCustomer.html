@@ -97,7 +97,67 @@
     <script th:src="@{/js/sidebarmenu.js}"></script>
     <script th:src="@{/js/app.min.js}"></script>
 
-    <script th:src="@{/js/sweetalert-delete.js}"></script>
+    <script>
+        function confirmDelete(deleteId, args) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request to delete customer
+                    $.ajax({
+                        type: "GET",
+                        url: args + deleteId,
+                        success: function(data) {
+                            swalWithBootstrapButtons.fire({
+                                title: "Deleted!",
+                                text: data.message,
+                                icon: "success"
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function(xhr) {
+                            var errorMessage = xhr.responseJSON.message;
+                            swalWithBootstrapButtons.fire({
+                                title: "Error",
+                                text: errorMessage,
+                                icon: "error"
+                            });
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your data is safe :)",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('.delete-btn').on('click', function() {
+                var deleteId = $(this).data('delete-id');
+                var args = $(this).data('args');
+                confirmDelete(deleteId, args);
+            });
+        });
+    </script>
+
     <script>
         var customerTable = $('#customertb').DataTable({
             deferRender: true,
