@@ -367,10 +367,18 @@ public class ReservationController {
 
     @PostMapping("/returncar")
     public String returnCar(@RequestParam("reservationID") int reservationID,
-            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentAmount") String paymentAmountStr,
             @RequestParam("paymentDescriptions") String paymentDescriptions,
             @RequestParam("additionalImage") MultipartFile additionalImage,
             RedirectAttributes redirectAttributes) {
+
+        double paymentAmount;
+        try {
+            paymentAmount = Double.parseDouble(paymentAmountStr);
+        } catch (NumberFormatException e) {
+            redirectAttributes.addFlashAttribute("error", "Invalid payment amount.");
+            return "redirect:/reservation/manageReservation";
+        }
 
         Reservation reservation = reservationService.getReservation(reservationID);
         Vehicle vehicle = vehicleService.getVehicle(reservation.getVehicleID().getVehicleID());
@@ -403,7 +411,7 @@ public class ReservationController {
 
         redirectAttributes.addFlashAttribute("success", "Vehicle returned successfully.");
 
-        // create nofication message for specified vehicle
+        // create notification message for specified vehicle
         String notificationMessage = "Vehicle has been returned for vehicle: "
                 + reservation.getVehicleID().getVehicleBrand() + " " + reservation.getVehicleID().getVehicleModel()
                 + " "

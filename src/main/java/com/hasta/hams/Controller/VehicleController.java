@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -122,9 +123,14 @@ public class VehicleController {
     }
 
     @GetMapping("/management/deleteVehicle")
-    public String deleteVehicle(@RequestParam("vehicleID") int id, Model model, HttpSession session) {
-        if (session.getAttribute("user") == null)
-            return "redirect:/";
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> deleteVehicle(@RequestParam("vehicleID") int id, HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+        if (session.getAttribute("user") == null) {
+            response.put("status", "error");
+            response.put("message", "User not logged in.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
 
         Vehicle vehicle = vehicleServices.getVehicle(id);
         List<Reservation> reservations = reservationServices.getReservationByVehicle(vehicle);
@@ -133,22 +139,25 @@ public class VehicleController {
         for (Reservation reservation : reservations) {
             if (reservation.getReservationStatus().equals("Booked")
                     || reservation.getReservationStatus().equals("Confirmed")) {
-                model.addAttribute("message", "Vehicle is currently booked or confirmed. Cannot delete.");
-                return "redirect:/management/vehicles";
+                response.put("status", "error");
+                response.put("message", "Vehicle is currently booked or confirmed. Cannot delete.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
         }
 
         for (Maintenance maintenance : maintenances) {
             if (maintenance.getMaintenanceStatus().equals("Submitted")
                     || maintenance.getMaintenanceStatus().equals("In Progress")) {
-                model.addAttribute("message", "Vehicle is currently in maintenance. Cannot delete.");
-                return "redirect:/management/vehicles";
+                response.put("status", "error");
+                response.put("message", "Vehicle is currently in maintenance. Cannot delete.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
         }
 
         vehicleServices.deleteVehicle(id);
-
-        return "redirect:/management/vehicles";
+        response.put("status", "success");
+        response.put("message", "Vehicle deleted successfully.");
+        return ResponseEntity.ok(response);
     }
 
 }
