@@ -41,6 +41,13 @@ public class StaffContoller {
     private StaffServices staffServices;
     private ImageController imageController;
 
+    /**
+     * Retrieves all staffs and renders the "MainStaff" view.
+     * 
+     * @param model   the model object to add attributes to
+     * @param session the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @GetMapping("/management/staffs")
     public String staffs(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -51,6 +58,13 @@ public class StaffContoller {
         return "Management/MainStaff";
     }
 
+    /**
+     * Renders the "AddStaff" view with an empty Staff object.
+     * 
+     * @param model   the model object to add attributes to
+     * @param session the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @GetMapping("/management/addStaff")
     public String addStaff(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -60,6 +74,15 @@ public class StaffContoller {
         return "Management/AddStaff";
     }
 
+    /**
+     * Adds a new staff to the database.
+     * 
+     * @param staff     the Staff object to add
+     * @param imageFile the image file of the staff
+     * @param model     the model object to add attributes to
+     * @param session   the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @PostMapping("/management/addStaff")
     public String addStaff(@ModelAttribute Staff staff, @RequestParam("imageFile") MultipartFile imageFile,
             Model model, HttpSession session) {
@@ -72,6 +95,14 @@ public class StaffContoller {
         return "redirect:/management/staffs";
     }
 
+    /**
+     * Retrieves a staff by ID and renders the "UpdateStaff" view.
+     * 
+     * @param id      the ID of the staff to update
+     * @param model   the model object to add attributes to
+     * @param session the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @GetMapping("/management/updateStaff")
     public String updateStaff(@RequestParam("staffID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -82,6 +113,16 @@ public class StaffContoller {
         return "Management/UpdateStaff";
     }
 
+    /**
+     * Updates a staff in the database.
+     * 
+     * @param staff     the updated Staff object
+     * @param password  the new password for the staff
+     * @param imageFile the new image file for the staff
+     * @param model     the model object to add attributes to
+     * @param session   the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @PostMapping("/management/updateStaff")
     public String updateStaff(@ModelAttribute Staff staff, @RequestParam("staffPassword") String password,
             @RequestParam("imageFile") MultipartFile imageFile, Model model,
@@ -106,6 +147,13 @@ public class StaffContoller {
         return "redirect:/management/staffs";
     }
 
+    /**
+     * Deletes a staff from the database.
+     * 
+     * @param id      the ID of the staff to delete
+     * @param session the HttpSession object to check user authentication
+     * @return the name of the view to render
+     */
     @GetMapping("/management/deleteStaff")
     public String deleteStaff(@RequestParam("staffID") int id, HttpSession session) {
         if (session.getAttribute("user") == null)

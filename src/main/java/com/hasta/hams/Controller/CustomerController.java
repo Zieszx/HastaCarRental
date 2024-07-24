@@ -44,13 +44,25 @@ public class CustomerController {
     private ReservationServices reservationServices;
     private NotificationController notificationController;
 
-    // api for getting all customers from the database
+    /**
+     * API for checking if an email exists in the database.
+     *
+     * @param email The email to check.
+     * @return ResponseEntity<Boolean> indicating whether the email exists or not.
+     */
     @GetMapping("/api/checkEmail")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
         boolean exists = customerServices.emailExists(email);
         return new ResponseEntity<>(exists, HttpStatus.OK);
     }
 
+    /**
+     * Handles the GET request for registering a new customer.
+     *
+     * @param model   The model to add attributes to.
+     * @param session The HttpSession object.
+     * @return The view name for registering a new customer.
+     */
     @GetMapping("/home/registercustomer")
     public String registerCustomer(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -60,6 +72,14 @@ public class CustomerController {
         return "Register/RegisterCustomer";
     }
 
+    /**
+     * Handles the POST request for registering a new customer.
+     *
+     * @param customer The Customer object to register.
+     * @param model    The model to add attributes to.
+     * @param session  The HttpSession object.
+     * @return The view name for redirecting after registering a new customer.
+     */
     @PostMapping("/home/registercustomer")
     public String registerCustomer(@ModelAttribute Customer customer, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -77,6 +97,13 @@ public class CustomerController {
         return "redirect:/home/registercustomer";
     }
 
+    /**
+     * Handles the GET request for displaying all customers.
+     *
+     * @param model   The model to add attributes to.
+     * @param session The HttpSession object.
+     * @return The view name for displaying all customers.
+     */
     @GetMapping("/management/customers")
     public String customers(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -88,6 +115,14 @@ public class CustomerController {
         return "Management/MainCustomer";
     }
 
+    /**
+     * Handles the GET request for deleting a customer.
+     *
+     * @param id      The ID of the customer to delete.
+     * @param session The HttpSession object.
+     * @return ResponseEntity<Map<String, String>> indicating the status and message
+     *         of the deletion.
+     */
     @GetMapping("/management/deleteCustomer")
     public ResponseEntity<Map<String, String>> deleteCustomer(@RequestParam("custID") int id, HttpSession session) {
         Map<String, String> response = new HashMap<>();
@@ -119,6 +154,14 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Handles the GET request for updating a customer.
+     *
+     * @param id      The ID of the customer to update.
+     * @param model   The model to add attributes to.
+     * @param session The HttpSession object.
+     * @return The view name for updating a customer.
+     */
     @GetMapping("/management/updateCustomer")
     public String updateCustomer(@RequestParam("custID") int id, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -130,6 +173,14 @@ public class CustomerController {
         return "Management/UpdateCustomer";
     }
 
+    /**
+     * Handles the POST request for updating a customer.
+     *
+     * @param customer The Customer object to update.
+     * @param model    The model to add attributes to.
+     * @param session  The HttpSession object.
+     * @return The view name for redirecting after updating a customer.
+     */
     @PostMapping("/management/updateCustomer")
     public String updateCustomer(@ModelAttribute Customer customer, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)

@@ -27,6 +27,12 @@ import java.io.IOException;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The ReservationController class handles the HTTP requests related to
+ * reservations.
+ * It provides methods for viewing cars, making reservations, managing
+ * reservations, and updating reservations.
+ */
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor(force = true)
@@ -37,11 +43,17 @@ public class ReservationController {
     private final CustomerServices customerService;
     private final ReservationServices reservationService;
     private final PaymentServices paymentService;
-    private final StaffServices staffServices;
 
     private ImageController imageController;
     private NotificationController notificationController;
 
+    /**
+     * Handles the request to view all cars.
+     * 
+     * @param model   the model to add attributes to.
+     * @param session the HTTP session to check for user authentication.
+     * @return the view name to display the cars.
+     */
     @GetMapping("/viewCars")
     public String viewCars(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -52,6 +64,13 @@ public class ReservationController {
         return "Reservation/ViewCars";
     }
 
+    /**
+     * Handles the request to view cars available for a specific date range.
+     * 
+     * @param model   the model to add attributes to.
+     * @param session the HTTP session to check for user authentication.
+     * @return the view name to display the filtered cars.
+     */
     @GetMapping("/viewCars/exactDate")
     public String viewCarsExactDate(Model model, HttpSession session) {
         if (session.getAttribute("user") == null) {
@@ -91,6 +110,14 @@ public class ReservationController {
         return "Reservation/ViewCarExactDate";
     }
 
+    /**
+     * Handles the request to reserve a car for an exact date.
+     * 
+     * @param vehicleID the ID of the vehicle to reserve.
+     * @param model     the model to add attributes to.
+     * @param session   the HTTP session to check for user authentication.
+     * @return the view name to display the reservation form.
+     */
     @GetMapping("/reservedCar/exactDate")
     public String reservedCarExactDate(@RequestParam("vehicleID") int vehicleID, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -112,6 +139,19 @@ public class ReservationController {
         return "Reservation/ReservedCarExactDate";
     }
 
+    /**
+     * Handles the request to submit the reservation form for an exact date.
+     * 
+     * @param reservation    the reservation details.
+     * @param vehicleID      the ID of the vehicle to reserve.
+     * @param customerID     the ID of the customer making the reservation.
+     * @param paymentDeposit the deposit amount for the reservation.
+     * @param imageFile      the image file for the payment deposit.
+     * @param result         the binding result to check for validation errors.
+     * @param model          the model to add attributes to.
+     * @param session        the HTTP session to check for user authentication.
+     * @return the redirect URL after successful reservation.
+     */
     @PostMapping("/reservedCar/exactDate")
     public String reservedCarExactDate(@ModelAttribute Reservation reservation,
             @RequestParam("vehicleID") int vehicleID,
@@ -147,7 +187,7 @@ public class ReservationController {
         vehicle.setVehicleStatus("Unavailable");
         vehicleService.updateVehicle(vehicle);
 
-        // create nofication message for specified vehicle
+        // create notification message for specified vehicle
         String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
                 + vehicle.getVehicleModel() + " " + vehicle.getVehicleLicensePlate();
         String notificationTitle = "New Reservation";
@@ -159,6 +199,14 @@ public class ReservationController {
         return "redirect:/reservation/viewCars";
     }
 
+    /**
+     * Handles the request to reserve a car for a specific date range.
+     * 
+     * @param vehicleID the ID of the vehicle to reserve.
+     * @param model     the model to add attributes to.
+     * @param session   the HTTP session to check for user authentication.
+     * @return the view name to display the reservation form.
+     */
     @GetMapping("/reservedCar/specificDate")
     public String reservedCar(@RequestParam("vehicleID") int vehicleID, Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -174,6 +222,19 @@ public class ReservationController {
         return "Reservation/ReservedCar";
     }
 
+    /**
+     * Handles the request to submit the reservation form for a specific date range.
+     * 
+     * @param reservation    the reservation details.
+     * @param vehicleID      the ID of the vehicle to reserve.
+     * @param customerID     the ID of the customer making the reservation.
+     * @param paymentDeposit the deposit amount for the reservation.
+     * @param imageFile      the image file for the payment deposit.
+     * @param result         the binding result to check for validation errors.
+     * @param model          the model to add attributes to.
+     * @param session        the HTTP session to check for user authentication.
+     * @return the redirect URL after successful reservation.
+     */
     @PostMapping("/reservedCar/specificDate")
     public String reservedCar(@ModelAttribute Reservation reservation, @RequestParam("vehicleID") int vehicleID,
             @RequestParam("customerID") int customerID, @RequestParam("paymentDeposit") double paymentDeposit,
@@ -205,10 +266,11 @@ public class ReservationController {
 
         // Save the reservation data
         reservationService.addReservation(reservation);
+
         vehicle.setVehicleStatus("Unavailable");
         vehicleService.updateVehicle(vehicle);
 
-        // create nofication message for specified vehicle
+        // create notification message for specified vehicle
         String notificationMessage = "New reservation has made for vehicle: " + vehicle.getVehicleBrand() + " "
                 + vehicle.getVehicleModel() + " " + vehicle.getVehicleLicensePlate();
         String notificationTitle = "New Reservation";
@@ -220,6 +282,13 @@ public class ReservationController {
         return "redirect:/reservation/viewCars";
     }
 
+    /**
+     * Handles the request to view all reservations.
+     * 
+     * @param model   the model to add attributes to.
+     * @param session the HTTP session to check for user authentication.
+     * @return the view name to display the reservations.
+     */
     @GetMapping("/manageReservation")
     public String manageReservation(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -240,6 +309,14 @@ public class ReservationController {
         return "Reservation/ManageCarReservation";
     }
 
+    /**
+     * Handles the request to view a specific reservation.
+     * 
+     * @param reservationID the reservation ID to view.
+     * @param model         on the model to add attributes to.
+     * @param session       the HTTP session to check for user authentication.
+     * @return the view name to display the reservation.
+     */
     @GetMapping("/updatereservation")
     public String updateReservation(@RequestParam("reservationID") int reservationID, Model model,
             HttpSession session) {
@@ -266,6 +343,17 @@ public class ReservationController {
 
         return "Reservation/UpdateCarReservation";
     }
+
+    /**
+     * Handles the request to update a reservation.
+     * 
+     * @param reservation the updated reservation details.
+     * @param imageFile   the image file for the payment deposit.
+     * @param result      the binding result to check for validation errors.
+     * @param model       the model to add attributes to.
+     * @param session     the HTTP session to check for user authentication.
+     * @return the redirect URL after successful reservation update.
+     */
 
     @PostMapping("/updatereservation")
     public String updateReservation(@ModelAttribute Reservation reservation,
@@ -302,6 +390,16 @@ public class ReservationController {
         return "redirect:/reservation/manageReservation";
     }
 
+    /**
+     * Handles the request to confirm a reservation.
+     * 
+     * @param reservationID      the reservation ID to confirm.
+     * @param paymentAmount      the payment amount for the reservation.
+     * @param fullPaymentImage   the image file for the full payment.
+     * @param redirectAttributes the redirect attributes object to add flash
+     *                           attributes to.
+     * @return the redirect URL after successful reservation confirmation.
+     */
     @PostMapping("/confirmreservation")
     public String updateReservation(@RequestParam("reservationID") int reservationID,
             @RequestParam("paymentAmount") double paymentAmount,
@@ -337,6 +435,15 @@ public class ReservationController {
         return "redirect:/reservation/manageReservation";
     }
 
+    /**
+     * Handles the request to cancel a reservation.
+     * 
+     * @param reservationID            the reservation ID to cancel.
+     * @param reservationReasonDeleted the reason for cancelling the reservation.
+     * @param redirectAttributes       the redirect attributes object to add flash
+     *                                 attributes to.
+     * @return the redirect URL after successful reservation cancellation.
+     */
     @PostMapping("/cancelreservation")
     public String cancelReservation(@RequestParam("reservationID") int reservationID,
             @RequestParam("reservationReasonDeleted") String reservationReasonDeleted,
@@ -365,6 +472,17 @@ public class ReservationController {
         return "redirect:/reservation/manageReservation";
     }
 
+    /**
+     * Handles the request to return a car.
+     * 
+     * @param reservationID       the reservation ID to return.
+     * @param paymentAmount       the payment amount for the reservation.
+     * @param paymentDescriptions the description for the payment.
+     * @param additionalImage     the image file for the additional payment.
+     * @param redirectAttributes  the redirect attributes object to add flash
+     *                            attributes to.
+     * @return the redirect URL after successful car return.
+     */
     @PostMapping("/returncar")
     public String returnCar(@RequestParam("reservationID") int reservationID,
             @RequestParam("paymentAmount") String paymentAmountStr,
@@ -425,6 +543,15 @@ public class ReservationController {
         return "redirect:/reservation/manageReservation";
     }
 
+    /**
+     * Handles the request to delete a reservation.
+     * 
+     * @param reservationID      the reservation ID to delete.
+     * @param redirectAttributes the redirect attributes object to add flash
+     *                           attributes to.
+     * @param model              the model to add attributes to.
+     * @return the redirect URL after successful reservation deletion.
+     */
     @GetMapping("/deletereservation")
     public String deleteReservation(@RequestParam("reservationID") int reservationID,
             RedirectAttributes redirectAttributes, Model model) {

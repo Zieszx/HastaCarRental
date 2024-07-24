@@ -49,6 +49,13 @@ public class ReportController {
     private ReservationServices reservationServices;
     private MaintenanceServices maintenanceServices;
 
+    /**
+     * Generates the report and returns the view for report generation.
+     *
+     * @param model   the model object to add attributes for the view
+     * @param session the HttpSession object to check user authentication
+     * @return the view for report generation
+     */
     @GetMapping("/generatereport")
     public String generateReport(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -112,6 +119,14 @@ public class ReportController {
         return "Management/Generatereport";
     }
 
+    /**
+     * Generates the customer report in CSV format and returns it as a downloadable
+     * file.
+     *
+     * @return the ResponseEntity object containing the customer report as a
+     *         downloadable file
+     * @throws FileNotFoundException if the customer.csv file is not found
+     */
     @GetMapping("/customer")
     public ResponseEntity<InputStreamResource> customerReport() throws FileNotFoundException {
         String csvFile = new String("customer.csv");

@@ -23,6 +23,13 @@ public class NotificationController {
 
     private NotificationServices notificationServices;
 
+    /**
+     * Creates a new notification with the specified type, message, and title.
+     *
+     * @param notificationType    The type of the notification.
+     * @param notificationMessage The message of the notification.
+     * @param notificationTitle   The title of the notification.
+     */
     public void createNotification(String notificationType, String notificationMessage, String notificationTitle) {
         Notification notification = new Notification();
 
@@ -65,14 +72,25 @@ public class NotificationController {
 
     }
 
-    // make a notification api
+    /**
+     * Retrieves all notifications.
+     *
+     * @return A ResponseEntity containing a list of notifications and the HTTP
+     *         status code.
+     */
     @GetMapping("/api/notifications")
     public ResponseEntity<List<Notification>> getNotifications() {
         List<Notification> notifications = notificationServices.getAllNotifications();
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
-    // Update notification status API
+    /**
+     * Marks a notification as read.
+     *
+     * @param id The ID of the notification to mark as read.
+     * @return A ResponseEntity with the HTTP status code indicating the success or
+     *         failure of the operation.
+     */
     @PostMapping("/api/notifications/{id}/read")
     public ResponseEntity<Void> markAsRead(@PathVariable int id) {
         Notification notification = notificationServices.getNotification(id);

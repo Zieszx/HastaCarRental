@@ -32,7 +32,6 @@ import lombok.NoArgsConstructor;
 public class ImageController {
     private VehicleServices vehicleServices;
     private PaymentServices paymentServices;
-    private ReservationServices reservationServices;
     private StaffServices staffServices;
 
     public byte[] setimageinDB(MultipartFile tempfile) {

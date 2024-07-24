@@ -30,6 +30,13 @@ import java.util.stream.Collectors;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 
+/**
+ * The MaintenanceController class handles the HTTP requests related to vehicle
+ * maintenance.
+ * It provides methods for creating, updating, and deleting maintenance
+ * requests, as well as
+ * viewing all maintenance requests and managing them.
+ */
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor(force = true)
@@ -38,15 +45,29 @@ public class MaintenanceController {
 
     private final VehicleServices vehicleServices;
     private final MaintenanceServices maintenanceServices;
-    private final StaffServices staffServices;
     private NotificationController notificationController;
 
+    /**
+     * Displays the view for creating a maintenance request for a vehicle.
+     * Retrieves all vehicles and adds them to the model.
+     * 
+     * @param model the model object to add attributes to
+     * @return the name of the view template
+     */
     @GetMapping("/viewCartoMaintenance")
     public String createMaintenance(Model model) {
         model.addAttribute("vehicles", vehicleServices.getAllVehicles());
         return "Maintenance/viewCartoMaintenance";
     }
 
+    /**
+     * Displays the view for creating a maintenance request for a specific vehicle.
+     * Retrieves the vehicle with the given ID and adds it to the model.
+     * 
+     * @param model     the model object to add attributes to
+     * @param vehicleID the ID of the vehicle
+     * @return the name of the view template
+     */
     @GetMapping("/createMaintenance")
     public String createMaintenance(Model model, @RequestParam("vehicleID") int vehicleID) {
         Vehicle vehicle = vehicleServices.getVehicle(vehicleID);
@@ -56,6 +77,17 @@ public class MaintenanceController {
         return "Maintenance/createMaintenance";
     }
 
+    /**
+     * Handles the submission of a maintenance request for a vehicle.
+     * Updates the vehicle status to "Maintenance" and adds the maintenance request.
+     * Creates a notification for the maintenance request.
+     * 
+     * @param maintenance        the maintenance request object
+     * @param vehicleID          the ID of the vehicle
+     * @param redirectAttributes the redirect attributes object to add flash
+     *                           attributes to
+     * @return the redirect URL
+     */
     @PostMapping("/createMaintenance")
     public String createMaintenance(@ModelAttribute("maintenance") Maintenance maintenance,
             @RequestParam("vehicleID") int vehicleID,
@@ -71,7 +103,6 @@ public class MaintenanceController {
         redirectAttributes.addFlashAttribute("message", "Maintenance created successfully!");
 
         // Create notification message
-        // should display the vehicle vehicleLicensePlate, model and brand information
         String notificationMessage = "Maintenance request for " + vehicle.getVehicleLicensePlate() + " "
                 + vehicle.getVehicleBrand() + " " + vehicle.getVehicleModel();
         String notificationTitle = "Vehicle Maintenance Request";
@@ -83,18 +114,41 @@ public class MaintenanceController {
         return "redirect:/maintenance/viewCartoMaintenance";
     }
 
+    /**
+     * Displays the view for viewing all maintenance requests.
+     * Retrieves all maintenance requests and adds them to the model.
+     * 
+     * @param model the model object to add attributes to
+     * @return the name of the view template
+     */
     @GetMapping("viewAllMaintenance")
     public String viewAllMaintenance(Model model) {
         model.addAttribute("maintenances", maintenanceServices.getAllMaintenance());
         return "Maintenance/viewAllMaintenance";
     }
 
+    /**
+     * Displays the view for managing maintenance requests.
+     * Retrieves all maintenance requests and adds them to the model.
+     * 
+     * @param model the model object to add attributes to
+     * @return the name of the view template
+     */
     @GetMapping("/manageMaintenance")
     public String manageMaintenance(Model model) {
         model.addAttribute("maintenances", maintenanceServices.getAllMaintenance());
         return "Maintenance/manageMaintenance";
     }
 
+    /**
+     * Displays the view for updating a maintenance request.
+     * Retrieves the maintenance request with the given ID and adds it to the model.
+     * Retrieves the associated vehicle and adds it to the model.
+     * 
+     * @param maintenanceID the ID of the maintenance request
+     * @param model         the model object to add attributes to
+     * @return the name of the view template
+     */
     @GetMapping("/updateMaintenance")
     public String updateMaintenance(@RequestParam("maintenanceID") int maintenanceID, Model model) {
         Maintenance maintenance = maintenanceServices.getMaintenance(maintenanceID);
@@ -104,6 +158,16 @@ public class MaintenanceController {
         return "Maintenance/updateMaintenance";
     }
 
+    /**
+     * Handles the submission of an updated maintenance request.
+     * Updates the maintenance request and the associated vehicle.
+     * Creates a notification for the updated maintenance request.
+     * 
+     * @param maintenance        the updated maintenance request object
+     * @param redirectAttributes the redirect attributes object to add flash
+     *                           attributes to
+     * @return the redirect URL
+     */
     @PostMapping("/updateMaintenance")
     public String updateMaintenance(@ModelAttribute("maintenance") Maintenance maintenance,
             RedirectAttributes redirectAttributes) {
@@ -133,6 +197,15 @@ public class MaintenanceController {
         return "redirect:/maintenance/manageMaintenance";
     }
 
+    /**
+     * Deletes a maintenance request with the given ID.
+     * Sets the associated vehicle status to "Available".
+     * 
+     * @param maintenanceID      the ID of the maintenance request
+     * @param redirectAttributes the redirect attributes object to add flash
+     *                           attributes to
+     * @return the redirect URL
+     */
     @GetMapping("/deleteMaintenance")
     public String deleteMaintenance(@RequestParam("maintenanceID") int maintenanceID,
             RedirectAttributes redirectAttributes) {
