@@ -27,6 +27,15 @@ public class IndexController {
     protected final AdminstrativeServices adminstrativeServices;
     protected final StaffServices staffServices;
 
+    /**
+     * Handles the request for the home page.
+     * If the user is not logged in, it returns the "index" view.
+     * If the user is logged in, it redirects to the dashboard.
+     *
+     * @param model   the model object for the view
+     * @param session the HttpSession object for session management
+     * @return the view name to be rendered
+     */
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -34,6 +43,14 @@ public class IndexController {
         return "redirect:/dashboard";
     }
 
+    /**
+     * Handles the request for logging out.
+     * Invalidates the session and redirects to the home page.
+     *
+     * @param session the HttpSession object for session management
+     * @param model   the model object for the view
+     * @return the view name to be rendered
+     */
     @GetMapping("/logout")
     public String logout(HttpSession session, Model model) {
         model.addAttribute("error", null);
@@ -41,6 +58,19 @@ public class IndexController {
         return "redirect:/";
     }
 
+    /**
+     * Handles the request for logging in.
+     * Checks the username and password provided and sets the appropriate session
+     * attributes.
+     * If the login is successful, it redirects to the dashboard.
+     * If the login fails, it returns the "index" view with an error message.
+     *
+     * @param model    the model object for the view
+     * @param username the username parameter from the login form
+     * @param password the password parameter from the login form
+     * @param session  the HttpSession object for session management
+     * @return the view name to be rendered
+     */
     @PostMapping("/")
     public String login(Model model, @RequestParam("Username") String username,
             @RequestParam("Password") String password, HttpSession session) {
@@ -86,6 +116,18 @@ public class IndexController {
         }
     }
 
+    /**
+     * Handles the request for the dashboard.
+     * If the user is not logged in, it redirects to the home page.
+     * If the user is logged in as an administrative user, it retrieves the
+     * administrative user's details and adds them to the model.
+     * If the user is logged in as a staff user, it retrieves the staff user's
+     * details and adds them to the model.
+     *
+     * @param model   the model object for the view
+     * @param session the HttpSession object for session management
+     * @return the view name to be rendered
+     */
     @RequestMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -103,6 +145,18 @@ public class IndexController {
         return "/dashboard";
     }
 
+    /**
+     * Handles the request for the profile page.
+     * If the user is not logged in, it redirects to the home page.
+     * If the user is logged in as an administrative user, it retrieves the
+     * administrative user's details and adds them to the model.
+     * If the user is logged in as a staff user, it retrieves the staff user's
+     * details and adds them to the model.
+     *
+     * @param model   the model object for the view
+     * @param session the HttpSession object for session management
+     * @return the view name to be rendered
+     */
     @GetMapping("/profile")
     public String profile(Model model, HttpSession session) {
         if (session.getAttribute("user") == null)
@@ -119,11 +173,28 @@ public class IndexController {
         return "redirect:/dashboard";
     }
 
+    /**
+     * Handles the request for the forgot password page.
+     *
+     * @return the view name to be rendered
+     */
     @GetMapping("/forgotpassword")
     public String forgotPassword() {
         return "forgotpassword/forgotpassword";
     }
 
+    /**
+     * Handles the request for validating the forgot password form.
+     * Checks if the provided email exists in the administrative or staff users.
+     * If the email is found, it adds the password and user type to the model and
+     * returns the validatedforgot view.
+     * If the email is not found, it adds an error message to the model and returns
+     * the forgotpassword view.
+     *
+     * @param email the email parameter from the forgot password form
+     * @param model the model object for the view
+     * @return the view name to be rendered
+     */
     @PostMapping("/forgotpassword")
     public String forgotpassword(@RequestParam("email") String email, Model model) {
         List<Adminstrative> adminstratives = adminstrativeServices.getAllAdminstrative();
@@ -149,6 +220,20 @@ public class IndexController {
         return "forgotpassword/forgotpassword";
     }
 
+    /**
+     * Handles the request for changing the password.
+     * If the user is not logged in, it redirects to the home page.
+     * If the user is logged in as an administrative user, it updates the
+     * administrative user's password.
+     * If the user is logged in as a staff user, it updates the staff user's
+     * password.
+     *
+     * @param password the new password parameter from the change password form
+     * @param user     the user type parameter from the change password form
+     * @param model    the model object for the view
+     * @param session  the HttpSession object for session management
+     * @return the view name to be rendered
+     */
     @PostMapping("/changepassword")
     public String changePassword(@RequestParam("password") String password, @RequestParam("user") String user,
             Model model, HttpSession session) {
@@ -165,7 +250,6 @@ public class IndexController {
             staffServices.updateStaff(staff);
         }
         return "redirect:/";
-
     }
 
 }

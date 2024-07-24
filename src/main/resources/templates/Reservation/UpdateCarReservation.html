@@ -308,23 +308,28 @@
                     title: 'Return Car Reservations',
                     html: `
                         <form id="returnCarReservation" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="reservationID" value=${reservationID}>
+                            <input type="hidden" name="reservationID" value="${reservationID}">
                             <div class="mb-3">
                                 <label for="additionalAmount">Additional Amount:</label>
-                                <input type="number" id="additionalAmount" name="paymentAmount" class="form-control" required>
+                                <input type="number" step="0.01" id="additionalAmount" name="paymentAmount" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="paymentDescriptions">Description (Why?):</label>
                                 <input type="text" id="paymentDescriptions" name="paymentDescriptions" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="additionalImage">Additional Image:</label>
+                                <label for="additionalImage">Summon/Damage Image:</label>
                                 <input type="file" class="form-control" id="additionalImage" name="additionalImage" accept=".jpg, .jpeg, .png" required>
                             </div>
                         </form>`,
                     showCancelButton: true,
                     confirmButtonText: 'Return Car Reservation',
                     preConfirm: () => {
+                        const paymentAmount = document.getElementById('additionalAmount').value;
+                        if (!paymentAmount || isNaN(paymentAmount)) {
+                            Swal.showValidationMessage('Additional Amount must be a valid number');
+                            return false;
+                        }
                         const formData = new FormData($('#returnCarReservation')[0]);
                         formData.append('reservationID', reservationID); // Append reservation ID to form data
                         return $.ajax({
